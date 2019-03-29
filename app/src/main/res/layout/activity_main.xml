@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    tools:context="com.example.aplinksmarthome.MainActivity" >
+
+
+
+    <TextView
+
+        android:id="@+id/tv_content"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="25dp"
+
+        android:layout_centerHorizontal="true"
+
+
+        android:background="#3F8637"
+
+        android:gravity="center"
+
+        android:text="接收的内容" />
+
+
+    <EditText
+        android:id="@+id/send_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="输入指令" />
+
+    <Button
+
+        android:id="@+id/bt_send"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/tv_content"
+
+
+        android:layout_marginTop="80dp"
+        android:text="发送" />
+
+
+
+    <TextView
+
+        android:id="@+id/tv_send_text"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/bt_send"
+
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="33dp"
+
+        android:text="发送的内容" />
+
+    <Button
+
+        android:id="@+id/bt_checkdata"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/tv_send_text"
+
+
+        android:layout_marginTop="36dp"
+        android:text="查询最新数据" />
+    <TextView
+
+        android:id="@+id/tv_checkdata"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/bt_checkdata"
+
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="33dp"
+
+        android:hint="按键查看最新数据" />
+
+    <Button
+
+        android:id="@+id/bt_DelTable"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/tv_checkdata"
+
+
+        android:layout_marginTop="18dp"
+        android:text="删除数据库" />
+
+    <Button
+
+        android:id="@+id/bt_test"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/bt_DelTable"
+
+
+        android:layout_marginTop="33dp"
+        android:text="生成图表" />
+    <Button
+
+        android:id="@+id/bt_test2"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/bt_test"
+
+
+        android:layout_marginTop="33dp"
+        android:text="测试数据生成" />
+
+
+</RelativeLayout>
