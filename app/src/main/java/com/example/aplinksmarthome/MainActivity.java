@@ -24,7 +24,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private TextView tv_content, tv_send_text,tv_checkdata;
 
-    private Button bt_send,bt_checkdata,bt_DelTable,bt_test,bt_test2;
+    private Button bt_send,bt_checkdata,bt_DelTable,bt_test,bt_test2,bt_test3;
 
     private EditText send_edit;
 
@@ -69,10 +69,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         bt_DelTable = (Button)findViewById(R.id.bt_DelTable);
         bt_test = (Button)findViewById(R.id.bt_test);
         bt_test2 = (Button)findViewById(R.id.bt_test2);
+        bt_test3 = (Button)findViewById(R.id.bt_test3);
         bt_checkdata.setOnClickListener(this);
         bt_DelTable.setOnClickListener(this);
         bt_test.setOnClickListener(this);
         bt_test2.setOnClickListener(this);
+        bt_test3.setOnClickListener(this);
     }
 
 
@@ -109,6 +111,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.bt_test:
                 Intent LineChartiIntent = new Intent(MainActivity.this,LineChartActivity.class);
                 startActivity(LineChartiIntent);
+                break;
+
+            case R.id.bt_test3:
+                Intent PieChartiIntent = new Intent(MainActivity.this,PieChartActivity.class);
+                startActivity(PieChartiIntent);
                 break;
 
             case R.id.bt_test2:

@@ -94,8 +94,8 @@ public class LineChartActivity extends Activity {
     private void getAxisXLables() {
         List<EnergyUsed> DataList = LitePal.findAll(EnergyUsed.class);
         int i = 0;
-        for(EnergyUsed testused:DataList){
-            mAxisXValues.add(new AxisValue(i).setLabel(testused.getDate()));
+        for(EnergyUsed energyUsed:DataList){
+            mAxisXValues.add(new AxisValue(i).setLabel(energyUsed.getDate()));
             i++;
         }
       //  for (int i = 0; i < DataList.size(); i++) {
@@ -107,8 +107,8 @@ public class LineChartActivity extends Activity {
     private void getAxisPoints() {
         List<EnergyUsed> DataList = LitePal.findAll(EnergyUsed.class);
         int i = 0;
-        for (EnergyUsed testused : DataList) {
-            mPointValues.add(new PointValue(i,testused.getEnergy_used()));
+        for (EnergyUsed energyUsed : DataList) {
+            mPointValues.add(new PointValue(i,energyUsed.getEnergy_used()));
             i++;
         }
     }

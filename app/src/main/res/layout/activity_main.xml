@@ -124,7 +124,7 @@
 
 
         android:layout_marginTop="33dp"
-        android:text="生成图表" />
+        android:text="生成折线图表" />
     <Button
 
         android:id="@+id/bt_test2"
@@ -139,5 +139,18 @@
         android:layout_marginTop="33dp"
         android:text="测试数据生成" />
 
+    <Button
+
+        android:id="@+id/bt_test3"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/bt_test2"
+
+
+        android:layout_marginTop="33dp"
+        android:text="生成饼图" />
 
 </RelativeLayout>
