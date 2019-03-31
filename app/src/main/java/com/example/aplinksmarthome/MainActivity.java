@@ -1,6 +1,8 @@
 package com.example.aplinksmarthome;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,21 +20,23 @@ import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 import org.litepal.tablemanager.Connector;
 
+import java.util.Calendar;
 import java.util.List;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener,
+        DatePickerDialog.OnDateSetListener {
 
     private TextView tv_content, tv_send_text,tv_checkdata;
 
-    private Button bt_send,bt_checkdata,bt_DelTable,bt_test,bt_test2,bt_test3;
+    private Button bt_send,bt_checkdata,bt_DelTable,bt_test,bt_test2,bt_test3,bt_test4;
 
     private EditText send_edit;
 
-    public int idplus=1;
+    public String pickdate_month,pickdate_day;
     //测试
-    String[] testdate = {"10-22","11-22","12-22","1-22","6-22","5-23","5-22","6-22","5-23","5-22"};//X轴的标注
-    int[] testscore= {50,42,90,33,10,74,22,18,79,20};//图表的数据点
+    String[] testdate;
+    int[] testscore;//图表的数据点
 
 
 
@@ -70,11 +75,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         bt_test = (Button)findViewById(R.id.bt_test);
         bt_test2 = (Button)findViewById(R.id.bt_test2);
         bt_test3 = (Button)findViewById(R.id.bt_test3);
+        bt_test4 = (Button)findViewById(R.id.bt_test4);
         bt_checkdata.setOnClickListener(this);
         bt_DelTable.setOnClickListener(this);
         bt_test.setOnClickListener(this);
         bt_test2.setOnClickListener(this);
         bt_test3.setOnClickListener(this);
+        bt_test4.setOnClickListener(this);
     }
 
 
@@ -119,14 +126,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.bt_test2:
-                for (int i = 0; i < testdate.length; i++) {
+                for (int i = 1; i < 12; i++) {
+                    for (int j =1;j<10;j++ ){
                     EnergyUsed energyUsed = new EnergyUsed();
-                   energyUsed.setDate(testdate[i]);
-                   energyUsed.setEnergy_used(testscore[i]);
-                   energyUsed.save();
+                   energyUsed.setDate(i+"月"+j+"日");
+                   energyUsed.setEnergy_used((float)(1+Math.random()*(100-1+1)));
+                   energyUsed.save();}
                 }
                 break;
 
+            case R.id.bt_test4:
+                Calendar calendar=Calendar.getInstance();
+                DatePickerDialog dialog = new DatePickerDialog(this,this,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+
+
+                break;
         }
 
 
@@ -157,7 +175,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     char sec = xieyi.charAt(1);
                     String PowerData_str = xieyi.substring(2,5);
                     int PowerData_int = Integer.parseInt(PowerData_str);
-                    String Date_month = xieyi.substring(7,9);
+                    String Date_month;
+                    if (!xieyi.substring(7,8).equals("0")){
+                        Date_month = xieyi.substring(7,9);}
+                    else  Date_month = xieyi.substring(7,8);
                     String Date_day = xieyi.substring(9,11);
                     String Date_display = Date_month + "月" + Date_day + "日";
                     //P表示电量数据
@@ -184,5 +205,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     };
 
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        pickdate_month = String.valueOf(month+1);
+        pickdate_day = String.valueOf(dayOfMonth);
+        Intent LineChart_month_Intent = new Intent(MainActivity.this,LineChartActivity.class);
+        LineChart_month_Intent.putExtra("month_choose",pickdate_month);
+        startActivity(LineChart_month_Intent);
 
+
+    }
 }

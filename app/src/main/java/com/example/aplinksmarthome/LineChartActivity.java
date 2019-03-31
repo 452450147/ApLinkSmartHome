@@ -1,8 +1,10 @@
 package com.example.aplinksmarthome;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import org.litepal.LitePal;
@@ -24,6 +26,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class LineChartActivity extends Activity {
 
     LineChartView lineChartView;
+    String monthchoose;
 
 
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
@@ -34,8 +37,10 @@ public class LineChartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.line_chart);
         lineChartView = (LineChartView)findViewById(R.id.linechart);
-        getAxisXLables();//获取x轴的标注
-        getAxisPoints();//获取坐标点
+        Intent intent = getIntent();
+        monthchoose = intent.getStringExtra("month_choose");
+        Log.d("testtest",monthchoose);
+        getValue();
         InitLineChartView();//初始化
     }
 
@@ -91,11 +96,12 @@ public class LineChartActivity extends Activity {
         lineChartView.setCurrentViewport(v);
     }
 
-    private void getAxisXLables() {
-        List<EnergyUsed> DataList = LitePal.findAll(EnergyUsed.class);
+    private void getValue() {
+        List<EnergyUsed> DataList = LitePal.where("date like ?",monthchoose+"%").order("date").find(EnergyUsed.class);
         int i = 0;
         for(EnergyUsed energyUsed:DataList){
             mAxisXValues.add(new AxisValue(i).setLabel(energyUsed.getDate()));
+            mPointValues.add(new PointValue(i,energyUsed.getEnergy_used()));
             i++;
         }
       //  for (int i = 0; i < DataList.size(); i++) {
@@ -104,13 +110,6 @@ public class LineChartActivity extends Activity {
     }
 
 
-    private void getAxisPoints() {
-        List<EnergyUsed> DataList = LitePal.findAll(EnergyUsed.class);
-        int i = 0;
-        for (EnergyUsed energyUsed : DataList) {
-            mPointValues.add(new PointValue(i,energyUsed.getEnergy_used()));
-            i++;
-        }
-    }
+
 
 }
