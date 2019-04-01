@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">APlinkSmartHome</string>
+    <string name="app_name">毕设：施</string>
+    <string name="title_home">用户菜单</string>
+    <string name="title_dashboard">管理菜单</string>
+    <string name="title_notifications">未开发</string>
+    <string name="title_name">家庭用电检测</string>
 </resources>
