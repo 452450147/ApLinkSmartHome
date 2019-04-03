@@ -25,6 +25,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.aplinksmarthome.UI.CardAdapater;
+import com.example.aplinksmarthome.UI.CardAdapater2;
 import com.example.aplinksmarthome.UI.CardBottom;
 
 import org.litepal.LitePal;
@@ -50,8 +51,18 @@ public class MainActivity extends AppCompatActivity implements
             new CardBottom("饼图测试",R.drawable.test),
             new CardBottom("",R.drawable.test)
     };
+    private CardBottom[]cardBottoms2={
+            new CardBottom("树形图调试",R.drawable.test),
+            new CardBottom("月份用电图",R.drawable.test),
+            new CardBottom("待设定",R.drawable.test),
+            new CardBottom("待设定",R.drawable.test),
+            new CardBottom("待设定",R.drawable.test),
+            new CardBottom("",R.drawable.test)
+    };
     private List<CardBottom>cardList = new ArrayList<>();
+    private List<CardBottom>cardList2 = new ArrayList<>();
     private CardAdapater adapater;
+    private CardAdapater2 adapater2;
 
 
 
@@ -95,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements
         recyclerView.setLayoutManager(layoutManager);
         adapater = new CardAdapater(cardList);
         recyclerView.setAdapter(adapater);
+        RecyclerView recyclerView2 = (RecyclerView)findViewById(R.id.recycle_view2);
+        GridLayoutManager layoutManager2 = new GridLayoutManager(this,1);
+        recyclerView2.setLayoutManager(layoutManager2);
+        adapater2 = new CardAdapater2(cardList2);
+        recyclerView2.setAdapter(adapater2);
 
     }
 
@@ -102,6 +118,10 @@ public class MainActivity extends AppCompatActivity implements
         cardList.clear();
         for (int i = 0; i<cardBottoms.length;i++){
             cardList.add(cardBottoms[i]);
+        }
+        cardList2.clear();
+        for (int i = 0; i<cardBottoms2.length;i++){
+            cardList2.add(cardBottoms2[i]);
         }
     }
 

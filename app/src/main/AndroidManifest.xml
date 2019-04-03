@@ -20,6 +20,7 @@
         <activity android:name=".LineChartActivity"></activity>
         <activity android:name=".PieChartActivity"></activity>
         <activity android:name=".WifiUseActivity"></activity>
+        <activity android:name=".tree.EditMapActivity"></activity>
     </application>
 
 </manifest>

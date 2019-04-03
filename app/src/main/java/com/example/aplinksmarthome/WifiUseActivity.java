@@ -24,6 +24,9 @@ public class WifiUseActivity extends AppCompatActivity implements View.OnClickLi
 
     }
     private void initview(){
+        android.support.v7.widget.Toolbar toolbar1 = findViewById(R.id.toolbar_view);
+        setSupportActionBar(toolbar1);
+
         tv_content = (TextView) findViewById(R.id.tv_content);
         send_edit = (EditText) findViewById(R.id.tv_send);
         ip_edit = (EditText) findViewById(R.id.ip_edit);
