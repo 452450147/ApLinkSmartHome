@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity implements
     };
     private CardBottom[]cardBottoms2={
             new CardBottom("树形图调试",R.drawable.test),
-            new CardBottom("月份用电图",R.drawable.test),
-            new CardBottom("待设定",R.drawable.test),
+            new CardBottom("树形图数据随机生成",R.drawable.test),
+            new CardBottom("",R.drawable.test),
             new CardBottom("待设定",R.drawable.test),
             new CardBottom("待设定",R.drawable.test),
             new CardBottom("",R.drawable.test)

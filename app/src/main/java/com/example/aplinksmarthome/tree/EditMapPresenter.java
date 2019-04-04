@@ -3,6 +3,9 @@ package com.example.aplinksmarthome.tree;
 import android.text.TextUtils;
 
 
+import com.example.aplinksmarthome.DeviceManager;
+
+import org.litepal.LitePal;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,8 +61,8 @@ public class EditMapPresenter implements EditMapContract.Presenter {
         mTreeModel = new TreeModel<>(plan);
         mView.setTreeViewData(mTreeModel);
 
-    }
 
+    }
 
 
 

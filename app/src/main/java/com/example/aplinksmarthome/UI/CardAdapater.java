@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.aplinksmarthome.DeviceManager;
 import com.example.aplinksmarthome.EnergyUsed;
 import com.example.aplinksmarthome.LineChartActivity;
 import com.example.aplinksmarthome.MainActivity;
@@ -95,6 +96,7 @@ public class CardAdapater extends RecyclerView.Adapter<CardAdapater.ViewHolder> 
                     case "数据库删除":
                         Toast.makeText(v.getContext(), "数据库已删除", Toast.LENGTH_LONG).show();
                         LitePal.deleteAll(EnergyUsed.class);
+                        LitePal.deleteAll(DeviceManager.class);
                         break;
                     case "饼图测试":try{
                         Intent PieChartiIntent = new Intent(v.getContext(), PieChartActivity.class);

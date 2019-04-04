@@ -25,11 +25,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 
-
-/**
- * Created by owant on 07/03/2017.
- */
-
 public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleGestureListener {
 
     private static final String TAG = "TreeView";
@@ -46,10 +41,11 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
     private TreeViewItemClick mTreeViewItemClick;
     private TreeViewItemLongClick mTreeViewItemLongClick;
     //最近点击的item
-    private NodeModel<String> mCurrentFocus;
+    private NodeModel<String> mCurrentFocus,mCreatNode,mCreatNode_Loop,mTempParentNode, mTempParentNode2,mTempParentNode3;
 
     private int mWidth;
     private int mHeight;
+
 
     private Integer[] looperBody = new Integer[]{0, 1, 0, -1};
     private LooperFlag<Integer> mLooperFlag;
@@ -471,6 +467,12 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
     public NodeModel<String> getCurrentFocusNode() {
         return mCurrentFocus;
     }
+    public NodeModel<String> getmCreatNode() {
+        return mCreatNode;
+    }
+    public NodeModel<String> getmCreatNode_Loop() {
+        return mCreatNode_Loop;
+    }
 
     /**
      * 添加同层节点
@@ -496,6 +498,42 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
         NodeModel<String> addNode = new NodeModel<>(nodeValue);
         mTreeModel.addNode(getCurrentFocusNode(), addNode);
         addNodeViewToGroup(addNode);
+    }
+    //---------------------------!!!!!-----------------
+    public void creatSubNode_root(String nodeValue) {
+        mCreatNode = new NodeModel<>(nodeValue);
+        mTreeModel.addNode(mTreeModel.getRootNode(), mCreatNode);
+        addNodeViewToGroup(mCreatNode);
+    }
+    public void creatSubNode(String nodeValue) {
+        mCreatNode_Loop = new NodeModel<>(nodeValue);
+        mTreeModel.addNode(getmCreatNode(), mCreatNode_Loop);
+        mCreatNode = mCreatNode_Loop;
+        addNodeViewToGroup(mCreatNode_Loop);
+    }
+    public void returnParentNode(){
+        mCreatNode = mTempParentNode;
+    }
+    public void noteParentNode(){
+        mTempParentNode = mCreatNode;
+    }
+    public void returnParentNode2(){
+        mCreatNode = mTempParentNode2;
+    }
+    public void noteParentNode2(){
+        mTempParentNode2 = mCreatNode;
+    }
+    public void returnParentNode3(){
+        mCreatNode = mTempParentNode3;
+    }
+    public void noteParentNode3(){
+        mTempParentNode3 = mCreatNode;
+    }
+    public void creatNode(String nodeValue) {
+        mCreatNode_Loop = new NodeModel<>(nodeValue);
+        mTreeModel.addNode(getmCreatNode().getParentNode(), mCreatNode_Loop);
+        mCreatNode = mCreatNode_Loop;
+        addNodeViewToGroup(mCreatNode_Loop);
     }
 
     public void deleteNode(NodeModel<String> node) {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.aplinksmarthome.DeviceManager;
 import com.example.aplinksmarthome.EnergyUsed;
 import com.example.aplinksmarthome.LineChartActivity;
 import com.example.aplinksmarthome.MainActivity;
@@ -64,26 +65,17 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                         e.printStackTrace();
                     }
                         break;
-                    case "月份用电图":
-                        Calendar calendar=Calendar.getInstance();
-                        DatePickerDialog dialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                String pickdate_month = String.valueOf(month+1);
-                                //String pickdate_day = String.valueOf(dayOfMonth);
-                                try{
-                                    Intent LineChart_month_Intent = new Intent(view.getContext(), LineChartActivity.class);
-                                    LineChart_month_Intent.setClass(view.getContext(),LineChartActivity.class);
-                                    LineChart_month_Intent.putExtra("month_choose",pickdate_month);
-                                    view.getContext().startActivity(LineChart_month_Intent);}
-                                catch (Exception e){
-                                    e.printStackTrace();
-                                }
-                            }},
-                                calendar.get(Calendar.YEAR),
-                                calendar.get(Calendar.MONTH),
-                                calendar.get(Calendar.DAY_OF_MONTH));
-                        dialog.show();
+                    case "树形图数据随机生成":
+
+                        for (int i = 1; i <= 5; i++) {
+                            for (int j =1;j <= 3; j++ ){
+                                DeviceManager deviceManager = new DeviceManager();
+                                deviceManager.setDevice_name(i);
+                                deviceManager.setLayer(i);
+                                deviceManager.setThis_layer_id(j);
+                                deviceManager.setUpper_layer_id(1);
+                                deviceManager.save();}
+                        }
                         break;
                     case "测试数据随机生成":
                         for (int i = 1; i < 12; i++) {

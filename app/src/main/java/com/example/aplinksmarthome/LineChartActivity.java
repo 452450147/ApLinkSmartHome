@@ -104,9 +104,9 @@ public class LineChartActivity extends Activity {
             mPointValues.add(new PointValue(i,energyUsed.getEnergy_used()));
             i++;
         }
-      //  for (int i = 0; i < DataList.size(); i++) {
-     //       mAxisXValues.add(new AxisValue(i).setLabel(energyUsed.getElectrical_appliances_name()));
-     //   }
+        //  for (int i = 0; i < DataList.size(); i++) {
+        //       mAxisXValues.add(new AxisValue(i).setLabel(energyUsed.getElectrical_appliances_name()));
+        //   }
     }
 
 
