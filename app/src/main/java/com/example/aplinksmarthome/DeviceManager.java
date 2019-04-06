@@ -2,7 +2,8 @@ package com.example.aplinksmarthome;
 import org.litepal.crud.LitePalSupport;
 
 public class DeviceManager extends LitePalSupport{
-    private int this_layer_id,device_name,switch_status,layer,upper_layer_id;
+    private int this_layer_id,device_name,layer,upper_layer_id;
+    boolean switch_status;
     public int getThis_layer_id(){
         return this_layer_id;
     }
@@ -15,10 +16,10 @@ public class DeviceManager extends LitePalSupport{
     public void setDevice_name(int device_name){
         this.device_name = device_name;
     }
-    public int getSwitch_status(){
+    public boolean getSwitch_status(){
         return switch_status;
     }
-    public void setSwitch_status(int switch_status){
+    public void setSwitch_status(boolean switch_status){
         this.switch_status = switch_status;
     }
     public int getLayer(){

@@ -22,6 +22,7 @@ import static com.example.aplinksmarthome.tree.DensityUtils.dp2px;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -389,6 +390,36 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
         return nodeView;
     }
 
+    private View creatNodeViewToGroup(NodeModel<String> poll ,boolean swich,int layer ,int device_id) {
+        final NodeView nodeView = new NodeView(mContext);
+        nodeView.setFocusable(true);
+        nodeView.setClickable(true);
+        nodeView.setSelected(false);
+        nodeView.setTreeNode(poll);
+        nodeView.setSwitch(swich);
+        nodeView.setLayer(layer);
+        nodeView.setDevice_id(device_id);
+
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        nodeView.setLayoutParams(lp);
+        //set the nodeclick
+        nodeView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                performTreeItemClick(view);
+            }
+        });
+        nodeView.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                preformTreeItemLongClick(v);
+                return true;
+            }
+        });
+        this.addView(nodeView);
+        return nodeView;
+    }
+
     public void setTreeViewItemClick(TreeViewItemClick treeViewItemClick) {
         mTreeViewItemClick = treeViewItemClick;
     }
@@ -499,18 +530,66 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
         mTreeModel.addNode(getCurrentFocusNode(), addNode);
         addNodeViewToGroup(addNode);
     }
-    //---------------------------!!!!!-----------------
-    public void creatSubNode_root(String nodeValue) {
+    //---------------------------!!!!!-------------------------------------------
+    public void creatSubNode_root(String nodeValue ,boolean swich,int layer,int device_id) {
         mCreatNode = new NodeModel<>(nodeValue);
         mTreeModel.addNode(mTreeModel.getRootNode(), mCreatNode);
-        addNodeViewToGroup(mCreatNode);
+        creatNodeViewToGroup(mCreatNode,swich,layer,device_id);
     }
-    public void creatSubNode(String nodeValue) {
+    public void creatSubNode(String nodeValue ,boolean swich,int layer,int device_id) {
         mCreatNode_Loop = new NodeModel<>(nodeValue);
         mTreeModel.addNode(getmCreatNode(), mCreatNode_Loop);
         mCreatNode = mCreatNode_Loop;
-        addNodeViewToGroup(mCreatNode_Loop);
+        creatNodeViewToGroup(mCreatNode_Loop,swich,layer,device_id);
     }
+    public void creatNode(String nodeValue,boolean swich,int layer,int device_id) {
+        mCreatNode_Loop = new NodeModel<>(nodeValue);
+        mTreeModel.addNode(getmCreatNode().getParentNode(), mCreatNode_Loop);
+        mCreatNode = mCreatNode_Loop;
+        creatNodeViewToGroup(mCreatNode_Loop,swich,layer,device_id);
+    }
+    public void changeNodeSwich(NodeModel<String> model) {
+        NodeView treeNodeView = (NodeView) findNodeViewFromNodeModel(model);
+        NodeModel<String> treeNode = treeNodeView.getTreeNode();
+        //检查父节点
+        NodeModel<String> treeParentNode = treeNode.getParentNode();
+        boolean rev = treeNodeView.getSwitch();
+        if (treeParentNode != null){
+        NodeView treeParentNodeView = (NodeView) findNodeViewFromNodeModel(treeParentNode);
+        boolean parent_switch = treeParentNodeView.getSwitch();
+        if (parent_switch!=false)treeNodeView.setSwitch(!rev);}
+        else treeNodeView.setSwitch(!rev);
+
+        //子节点在当前节点关闭时会关闭，打开时不会跟着打开
+        if (rev){
+            LinkedList<NodeModel<String>>changeChildNode  =treeNode.getChildNodes();
+            for (NodeModel<String> item : changeChildNode) {
+                NodeView childNodeView = (NodeView) findNodeViewFromNodeModel(item);
+                boolean rev2 = childNodeView.getSwitch();
+                if (rev2){childNodeView.setSwitch(false);}
+                    LinkedList<NodeModel<String>>changeChild2Node  =item.getChildNodes();
+                    for (NodeModel<String> item2 : changeChild2Node) {
+                        NodeView childNodeView2 = (NodeView) findNodeViewFromNodeModel(item2);
+                        boolean rev3 = childNodeView2.getSwitch();
+                        if (rev3){
+                            childNodeView2.setSwitch(false);
+                    }
+
+            }
+        }
+    }}
+    public String returnStr(NodeModel<String> model){
+        NodeView treeNodeView = (NodeView) findNodeViewFromNodeModel(model);
+        String layer,id;
+        if(treeNodeView.getLayer() > 9){layer = String.valueOf(treeNodeView.getLayer());}
+        else layer = "0"+ treeNodeView.getLayer();
+        if(treeNodeView.getDevice_id() > 9){id = String.valueOf(treeNodeView.getDevice_id());}
+        else id = "0" + treeNodeView.getDevice_id();
+        String str ="#R"+ layer + id + treeNodeView.getSwitch();
+        return str;
+    }
+
+
     public void returnParentNode(){
         mCreatNode = mTempParentNode;
     }
@@ -529,12 +608,7 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
     public void noteParentNode3(){
         mTempParentNode3 = mCreatNode;
     }
-    public void creatNode(String nodeValue) {
-        mCreatNode_Loop = new NodeModel<>(nodeValue);
-        mTreeModel.addNode(getmCreatNode().getParentNode(), mCreatNode_Loop);
-        mCreatNode = mCreatNode_Loop;
-        addNodeViewToGroup(mCreatNode_Loop);
-    }
+
 
     public void deleteNode(NodeModel<String> node) {
 

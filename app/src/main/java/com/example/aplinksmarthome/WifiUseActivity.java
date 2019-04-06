@@ -52,13 +52,7 @@ public class WifiUseActivity extends AppCompatActivity implements View.OnClickLi
             switch (msg.what) {
 
                 case 1:
-
-                    // tv_content.setText("WiFi模块发送的：" + msg.obj);
-
-                    //Toast.makeText(MainActivity.this, "接收到信息", Toast.LENGTH_LONG).show();
-
                     //测试协议 （0位#表示开始标志，1位表示数据的类型，2-4位表示数值，5-10位表示年月日，10-13表示时间
-
                     String xieyi = (String)msg.obj;
                     tv_content.setText("WiFi模块发送的：" + xieyi);
                     char fir = xieyi.charAt(0);
@@ -103,14 +97,12 @@ public class WifiUseActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.bt_send:
                 String str = send_edit.getText().toString();
                 new SendAsyncTask().execute(str);
-                //send_edit.setText(str);
                 break;
             case R.id.bt_loginwifi:
                 String ip_edit_str = ip_edit.getText().toString();
                 String socket_edit_str = socket_edit.getText().toString();
                 int socket_edit_int = Integer.parseInt(socket_edit_str);
 
-                //send_edit.setText(str);
                 break;
 
         }

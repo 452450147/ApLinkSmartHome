@@ -33,35 +33,6 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
     private TreeView editMapTreeView;
     private boolean OnceFlag = true,OnceFlag2 = true,OnceFlag3 = true,OnceFlag4 = true;
 
-/*
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_think_map);
-        editMapTreeView = (TreeView) findViewById(R.id.edit_map_tree_view);
-        int dx = DensityUtils.dp2px(getApplicationContext(), 20);
-        int dy = DensityUtils.dp2px(getApplicationContext(), 20);
-        int screenHeight = DensityUtils.dp2px(getApplicationContext(), 720);
-        editMapTreeView.setTreeLayoutManager(new RightTreeLayoutManager(dx, dy, screenHeight));
-        android.support.v7.widget.Toolbar toolbar1 = findViewById(R.id.toolbar_view);
-        setSupportActionBar(toolbar1);
-        editMapTreeView.setTreeViewItemLongClick(new TreeViewItemLongClick() {
-            @Override
-            public void onLongClick(View view) {
-
-            }
-        });
-
-        editMapTreeView.setTreeViewItemClick(new TreeViewItemClick() {
-            @Override
-            public void onItemClick(View item) {
-
-            }
-        });
-
-        initPresenter();
-    }
-*/
     @Override
     protected void onBaseIntent() {
 
@@ -88,7 +59,7 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
         editMapTreeView.setTreeViewItemLongClick(new TreeViewItemLongClick() {
             @Override
             public void onLongClick(View view) {
-               editMapTreeView.addSubNode("开始");
+
 
             }
         });
@@ -96,6 +67,7 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
         editMapTreeView.setTreeViewItemClick(new TreeViewItemClick() {
             @Override
             public void onItemClick(View item) {
+                Toast.makeText(EditMapActivity.this,"您没有控制权限",Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -119,49 +91,46 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
 
     public void adddata(){
         List<DeviceManager> DataList_layer1 = LitePal.where("layer = ?","1").order("this_layer_id").find(DeviceManager.class);
-        int i = 0,j=0,k=0;
+
         for(DeviceManager deviceManager:DataList_layer1){
-            String str_1 = GetDeviceName(deviceManager.getDevice_name()) + deviceManager.getThis_layer_id();
-            editMapTreeView.creatSubNode_root(str_1);
-            String str_i = String.valueOf(i);
-            Log.d("looptest",str_i);
-            i++;
+            String str_1 = GetDeviceName(deviceManager.getLayer()) + deviceManager.getThis_layer_id();
+            editMapTreeView.creatSubNode_root(str_1,deviceManager.getSwitch_status(),deviceManager.getLayer(),deviceManager.getThis_layer_id());
             String this_id = String.valueOf(deviceManager.getThis_layer_id());
             List<DeviceManager> DataList_layer2 = LitePal.where("layer = ? and upper_layer_id = ?","2",this_id).order("this_layer_id").find(DeviceManager.class);
           String size = String.valueOf(DataList_layer2.size());
-            Log.d("testsize",size);
             if (DataList_layer2 !=null){
 
                 for (DeviceManager deviceManager2:DataList_layer2){
-                    if (OnceFlag == false){String str_2 = GetDeviceName(deviceManager2.getDevice_name()) + deviceManager2.getThis_layer_id();
-                    editMapTreeView.creatNode(str_2);}
-                    if (OnceFlag == true){String str_2 = GetDeviceName(deviceManager2.getDevice_name()) + deviceManager2.getThis_layer_id();
-                        editMapTreeView.creatSubNode(str_2);OnceFlag = false;}
+                    if (OnceFlag == false){String str_2 = GetDeviceName(deviceManager2.getLayer()) + deviceManager2.getThis_layer_id();
+                    editMapTreeView.creatNode(str_2,deviceManager2.getSwitch_status(),deviceManager2.getLayer(),deviceManager2.getThis_layer_id());}
+                    if (OnceFlag == true){String str_2 = GetDeviceName(deviceManager2.getLayer()) + deviceManager2.getThis_layer_id();
+                        editMapTreeView.creatSubNode(str_2,deviceManager2.getSwitch_status(),deviceManager2.getLayer(),deviceManager2.getThis_layer_id());OnceFlag = false;}
                         String this_id2 = String.valueOf(deviceManager2.getThis_layer_id());
                     List<DeviceManager> DataList_layer3 = LitePal.where("layer = ? and upper_layer_id = ?","3",this_id2).order("this_layer_id").find(DeviceManager.class);
                    if (DataList_layer3 !=null){ editMapTreeView.noteParentNode();
                        for (DeviceManager deviceManager3:DataList_layer3){
-                           if (OnceFlag2 == false){String str_3 = GetDeviceName(deviceManager3.getDevice_name()) + deviceManager3.getThis_layer_id();
-                               editMapTreeView.creatNode(str_3);}
-                           if (OnceFlag2 == true){String str_3 = GetDeviceName(deviceManager3.getDevice_name()) + deviceManager3.getThis_layer_id();
-                               editMapTreeView.creatSubNode(str_3);OnceFlag2 = false;}
+                           if (OnceFlag2 == false){String str_3 = GetDeviceName(deviceManager3.getLayer()) + deviceManager3.getThis_layer_id();
+                               editMapTreeView.creatNode(str_3,deviceManager3.getSwitch_status(),deviceManager3.getLayer(),deviceManager3.getThis_layer_id());}
+                           if (OnceFlag2 == true){String str_3 = GetDeviceName(deviceManager3.getLayer()) + deviceManager3.getThis_layer_id();
+                               editMapTreeView.creatSubNode(str_3,deviceManager3.getSwitch_status(),deviceManager3.getLayer(),deviceManager3.getThis_layer_id());OnceFlag2 = false;}
                            String this_id3 = String.valueOf(deviceManager3.getThis_layer_id());
                            List<DeviceManager> DataList_layer4 = LitePal.where("layer = ? and upper_layer_id = ?","4",this_id3).order("this_layer_id").find(DeviceManager.class);
                            if (DataList_layer4 !=null){ editMapTreeView.noteParentNode2();
                                for (DeviceManager deviceManager4:DataList_layer4){
-                               if (OnceFlag3 == false){String str_4 = GetDeviceName(deviceManager4.getDevice_name()) + deviceManager4.getThis_layer_id();
-                                   editMapTreeView.creatNode(str_4);}
-                               if (OnceFlag3 == true){String str_4 = GetDeviceName(deviceManager4.getDevice_name()) + deviceManager4.getThis_layer_id();
-                                   editMapTreeView.creatSubNode(str_4);OnceFlag3 = false;}
-                                   List<DeviceManager> DataList_layer5 = LitePal.where("layer = ? and upper_layer_id = ?","5",this_id3).order("this_layer_id").find(DeviceManager.class);
+                               if (OnceFlag3 == false){String str_4 = GetDeviceName(deviceManager4.getLayer()) + deviceManager4.getThis_layer_id();
+                                   editMapTreeView.creatNode(str_4,deviceManager4.getSwitch_status(),deviceManager4.getLayer(),deviceManager4.getThis_layer_id());}
+                               if (OnceFlag3 == true){String str_4 = GetDeviceName(deviceManager4.getLayer()) + deviceManager4.getThis_layer_id();
+                                   editMapTreeView.creatSubNode(str_4,deviceManager4.getSwitch_status(),deviceManager4.getLayer(),deviceManager4.getThis_layer_id());OnceFlag3 = false;}
+                                 /*    String this_id4 = String.valueOf(deviceManager4.getThis_layer_id());
+                                 List<DeviceManager> DataList_layer5 = LitePal.where("layer = ? and upper_layer_id = ?","5",this_id4).order("this_layer_id").find(DeviceManager.class);
                                    if (DataList_layer5 !=null){ editMapTreeView.noteParentNode3();
                                        for (DeviceManager deviceManager5:DataList_layer5){
                                            if (OnceFlag4 == false){String str_5 = GetDeviceName(deviceManager5.getDevice_name()) + deviceManager5.getThis_layer_id();
-                                               editMapTreeView.creatNode(str_5);}
+                                               editMapTreeView.creatNode(str_5,deviceManager5.getSwitch_status());}
                                            if (OnceFlag3 == true){String str_5 = GetDeviceName(deviceManager5.getDevice_name()) + deviceManager5.getThis_layer_id();
-                                               editMapTreeView.creatSubNode(str_5);OnceFlag4 = false;}}
+                                               editMapTreeView.creatSubNode(str_5,deviceManager5.getSwitch_status());OnceFlag4 = false;}}
                                                editMapTreeView.returnParentNode3();OnceFlag4 = true;
-                                   }
+                                   }*/
                            }editMapTreeView.returnParentNode2();
                                OnceFlag3 = true;
                            }

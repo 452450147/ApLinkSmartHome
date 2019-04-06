@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements
             new CardBottom("",R.drawable.test)
     };
     private CardBottom[]cardBottoms2={
-            new CardBottom("树形图调试",R.drawable.test),
+            new CardBottom("管理员树形图调试",R.drawable.test),
             new CardBottom("树形图数据随机生成",R.drawable.test),
-            new CardBottom("",R.drawable.test),
+            new CardBottom("用户设备管理",R.drawable.test),
             new CardBottom("待设定",R.drawable.test),
             new CardBottom("待设定",R.drawable.test),
             new CardBottom("",R.drawable.test)

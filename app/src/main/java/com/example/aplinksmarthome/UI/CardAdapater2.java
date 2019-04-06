@@ -23,6 +23,7 @@ import com.example.aplinksmarthome.PieChartActivity;
 import com.example.aplinksmarthome.R;
 import com.example.aplinksmarthome.WifiUseActivity;
 import com.example.aplinksmarthome.tree.EditMapActivity;
+import com.example.aplinksmarthome.tree.EditmapActivity_user;
 
 import org.litepal.LitePal;
 
@@ -56,7 +57,7 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                 int position = viewHolder.getAdapterPosition();
                 CardBottom cardBottom = mCardList.get(position);
                 switch (cardBottom.getName()){
-                    case "树形图调试":try{
+                    case "管理员树形图调试":try{
                         Intent TreeMAPIntent = new Intent(v.getContext(), EditMapActivity.class);
                         TreeMAPIntent.setClass(v.getContext(),EditMapActivity.class);
                         v.getContext().startActivity(TreeMAPIntent);}
@@ -66,14 +67,17 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                     }
                         break;
                     case "树形图数据随机生成":
-
-                        for (int i = 1; i <= 5; i++) {
-                            for (int j =1;j <= 3; j++ ){
+                        Toast.makeText(v.getContext(), "随机数据生成成功", Toast.LENGTH_LONG).show();
+                        for (int i = 1; i <= 7; i++) {
+                            for (int j =1;j <= 2*i; j++ ){
                                 DeviceManager deviceManager = new DeviceManager();
                                 deviceManager.setDevice_name(i);
                                 deviceManager.setLayer(i);
                                 deviceManager.setThis_layer_id(j);
-                                deviceManager.setUpper_layer_id(1);
+                                deviceManager.setUpper_layer_id((int)(1+Math.random()*(2*(i-1)-1+1)));
+                                if (i <= 3 || i == 5){
+                                deviceManager.setSwitch_status(true);}
+                                else deviceManager.setSwitch_status(false);
                                 deviceManager.save();}
                         }
                         break;
@@ -86,9 +90,15 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                                 energyUsed.save();}
                         }
                         break;
-                    case "数据库删除":
-                        Toast.makeText(v.getContext(), "数据库已删除", Toast.LENGTH_LONG).show();
-                        LitePal.deleteAll(EnergyUsed.class);
+                    case "用户设备管理":try{
+                        Intent TreeMAPIntent2 = new Intent(v.getContext(), EditmapActivity_user.class);
+                        TreeMAPIntent2.setClass(v.getContext(),EditmapActivity_user.class);
+                        v.getContext().startActivity(TreeMAPIntent2);}
+                    catch (Exception e){
+                        Toast.makeText(v.getContext(),"出错了",Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+
                         break;
                     case "饼图测试":try{
                         Intent PieChartiIntent = new Intent(v.getContext(), PieChartActivity.class);

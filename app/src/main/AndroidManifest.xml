@@ -21,6 +21,7 @@
         <activity android:name=".PieChartActivity"></activity>
         <activity android:name=".WifiUseActivity"></activity>
         <activity android:name=".tree.EditMapActivity"></activity>
+        <activity android:name=".tree.EditmapActivity_user"></activity>
     </application>
 
 </manifest>
