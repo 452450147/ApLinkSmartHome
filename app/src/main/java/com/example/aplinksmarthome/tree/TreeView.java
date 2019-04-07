@@ -559,7 +559,6 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
         boolean parent_switch = treeParentNodeView.getSwitch();
         if (parent_switch!=false)treeNodeView.setSwitch(!rev);}
         else treeNodeView.setSwitch(!rev);
-
         //子节点在当前节点关闭时会关闭，打开时不会跟着打开
         if (rev){
             LinkedList<NodeModel<String>>changeChildNode  =treeNode.getChildNodes();
@@ -571,13 +570,20 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
                     for (NodeModel<String> item2 : changeChild2Node) {
                         NodeView childNodeView2 = (NodeView) findNodeViewFromNodeModel(item2);
                         boolean rev3 = childNodeView2.getSwitch();
-                        if (rev3){
-                            childNodeView2.setSwitch(false);
+                        if (rev3) { childNodeView2.setSwitch(false); }
+                        LinkedList<NodeModel<String>>changeChild3Node  =item2.getChildNodes();
+                        for (NodeModel<String> item3 : changeChild3Node) {
+                            NodeView childNodeView3 = (NodeView) findNodeViewFromNodeModel(item3);
+                            boolean rev4 = childNodeView3.getSwitch();
+                            if (rev4) {
+                                childNodeView3.setSwitch(false);
+                            }
+                    }
                     }
 
             }
         }
-    }}
+    }
     public String returnStr(NodeModel<String> model){
         NodeView treeNodeView = (NodeView) findNodeViewFromNodeModel(model);
         String layer,id;

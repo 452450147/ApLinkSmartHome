@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.aplinksmarthome">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
@@ -9,7 +17,13 @@
         android:label="@string/title_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+        <service
+            android:name=".MqttService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,11 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LineChartActivity"></activity>
-        <activity android:name=".PieChartActivity"></activity>
-        <activity android:name=".WifiUseActivity"></activity>
-        <activity android:name=".tree.EditMapActivity"></activity>
-        <activity android:name=".tree.EditmapActivity_user"></activity>
+        <activity android:name=".LineChartActivity" />
+        <activity android:name=".PieChartActivity" />
+        <activity android:name=".WifiUseActivity" />
+        <activity android:name=".tree.EditMapActivity" />
+        <activity android:name=".tree.EditmapActivity_user" />
+        <activity android:name=".MqttActivity" />
+
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>

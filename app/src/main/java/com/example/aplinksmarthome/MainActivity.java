@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private CardBottom[]cardBottoms={
             new CardBottom("WiFi直连",R.drawable.test),
-            new CardBottom("月份用电图",R.drawable.test),
+            new CardBottom("MQTT连接",R.drawable.test),
             new CardBottom("测试数据随机生成",R.drawable.test),
             new CardBottom("数据库删除",R.drawable.test),
             new CardBottom("饼图测试",R.drawable.test),
-            new CardBottom("",R.drawable.test)
+            new CardBottom("月份用电图",R.drawable.test)
     };
     private CardBottom[]cardBottoms2={
             new CardBottom("管理员树形图调试",R.drawable.test),

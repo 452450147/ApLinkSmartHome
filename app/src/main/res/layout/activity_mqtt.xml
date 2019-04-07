@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<EditText
+    android:id="@+id/et_mqtt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"/>
+    <Button
+        android:id="@+id/bt_mqtt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/et_mqtt"
+        android:text="发送"/>
+    <EditText
+        android:id="@+id/et_mqtt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/bt_mqtt"
+        android:hint="tcp://167.179.84.221:1883"/>
+    <Button
+        android:id="@+id/bt_mqtt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/et_mqtt2"
+        android:text="重连"/>
+</android.support.constraint.ConstraintLayout>

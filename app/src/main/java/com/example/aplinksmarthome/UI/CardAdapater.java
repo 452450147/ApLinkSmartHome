@@ -19,6 +19,7 @@ import com.example.aplinksmarthome.DeviceManager;
 import com.example.aplinksmarthome.EnergyUsed;
 import com.example.aplinksmarthome.LineChartActivity;
 import com.example.aplinksmarthome.MainActivity;
+import com.example.aplinksmarthome.MqttActivity;
 import com.example.aplinksmarthome.PieChartActivity;
 import com.example.aplinksmarthome.R;
 import com.example.aplinksmarthome.WifiUseActivity;
@@ -105,6 +106,14 @@ public class CardAdapater extends RecyclerView.Adapter<CardAdapater.ViewHolder> 
                         catch (Exception e){
                         e.printStackTrace();
                         }
+                        break;
+                    case "MQTT连接":try{
+                        Intent MqttIntent = new Intent(v.getContext(), MqttActivity.class);
+                        MqttIntent.setClass(v.getContext(),MqttActivity.class);
+                        v.getContext().startActivity(MqttIntent);}
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
                         break;
 
                 }
