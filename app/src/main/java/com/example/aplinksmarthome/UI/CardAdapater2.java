@@ -48,14 +48,6 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 CardBottom cardBottom = mCardList.get(position);
-                Toast.makeText(v.getContext(),cardBottom.getName(),Toast.LENGTH_LONG).show();
-            }
-        });
-        viewHolder.cardImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = viewHolder.getAdapterPosition();
-                CardBottom cardBottom = mCardList.get(position);
                 switch (cardBottom.getName()){
                     case "管理员树形图调试":try{
                         Intent TreeMAPIntent = new Intent(v.getContext(), EditMapActivity.class);
@@ -75,7 +67,7 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                                 deviceManager.setLayer(i);
                                 deviceManager.setThis_layer_id(j);
                                 deviceManager.setUpper_layer_id((int)(1+Math.random()*(2*(i-1)-1+1)));
-                                if (i <= 3 || i == 5){
+                                if (i <= 3 || i == 5 ||i == 6){
                                 deviceManager.setSwitch_status(true);}
                                 else deviceManager.setSwitch_status(false);
                                 deviceManager.save();}

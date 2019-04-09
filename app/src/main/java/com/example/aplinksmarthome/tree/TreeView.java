@@ -591,7 +591,8 @@ public class TreeView extends ViewGroup implements ScaleGestureDetector.OnScaleG
         else layer = "0"+ treeNodeView.getLayer();
         if(treeNodeView.getDevice_id() > 9){id = String.valueOf(treeNodeView.getDevice_id());}
         else id = "0" + treeNodeView.getDevice_id();
-        String str ="#R"+ layer + id + treeNodeView.getSwitch();
+        int switch_int = treeNodeView.getSwitch() ? 1 : 0;
+        String str ="#R"+ layer + id + switch_int;
         return str;
     }
 

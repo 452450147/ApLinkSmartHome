@@ -2,26 +2,23 @@ package com.example.aplinksmarthome.tree;
 
 
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.aplinksmarthome.DeviceManager;
+import com.example.aplinksmarthome.MqttActivity;
 import com.example.aplinksmarthome.R;
 import com.example.aplinksmarthome.SendAsyncTask;
+import com.zs.easy.mqtt.EasyMqttService;
+import com.zs.easy.mqtt.IEasyMqttCallBack;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.litepal.LitePal;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -35,7 +32,9 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
     private EditMapContract.Presenter mEditMapPresenter;
     private TreeView editMapTreeView;
     private Button bt_loginwifi2;
+    private EasyMqttService mqttService;
     private boolean OnceFlag = true,OnceFlag2 = true,OnceFlag3 = true,OnceFlag4 = true;
+    private String topic = "a";
 
     @Override
     protected void onBaseIntent() { }
@@ -55,7 +54,7 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
         int dy = DensityUtils.dp2px(getApplicationContext(), 20);
         int screenHeight = DensityUtils.dp2px(getApplicationContext(), 720);
         editMapTreeView.setTreeLayoutManager(new RightTreeLayoutManager(dx, dy, screenHeight));
-
+        buildEasyMqttService();connect();
         editMapTreeView.setTreeViewItemLongClick(new TreeViewItemLongClick() {
             @Override
             public void onLongClick(View view) {
@@ -69,6 +68,8 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
                 editMapTreeView.changeNodeSwich(getCurrentFocusNode());
                 String str = editMapTreeView.returnStr(getCurrentFocusNode());
                 new SendAsyncTask().execute(str);
+                mqttService.publish(str,topic,1,true);
+
             }
         });
 
@@ -98,18 +99,21 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
             String size = String.valueOf(DataList_layer2.size());
             if (DataList_layer2 !=null){
                 for (DeviceManager deviceManager2:DataList_layer2){
+                    boolean switch_judge;
+                    if (deviceManager.getSwitch_status()){switch_judge = deviceManager2.getSwitch_status();}else switch_judge = false;
                     if (OnceFlag == false){String str_2 = GetDeviceName(deviceManager2.getDevice_name()) + deviceManager2.getThis_layer_id();
-                        editMapTreeView.creatNode(str_2,deviceManager2.getSwitch_status(),deviceManager2.getLayer(),deviceManager2.getThis_layer_id());}
+                    editMapTreeView.creatNode(str_2,switch_judge,deviceManager2.getLayer(),deviceManager2.getThis_layer_id());}
                     if (OnceFlag == true){String str_2 = GetDeviceName(deviceManager2.getDevice_name()) + deviceManager2.getThis_layer_id();
-                        editMapTreeView.creatSubNode(str_2,deviceManager2.getSwitch_status(),deviceManager2.getLayer(),deviceManager2.getThis_layer_id());OnceFlag = false;}
+                        editMapTreeView.creatSubNode(str_2,switch_judge,deviceManager2.getLayer(),deviceManager2.getThis_layer_id());OnceFlag = false;}
                     String this_id2 = String.valueOf(deviceManager2.getThis_layer_id());
                     List<DeviceManager> DataList_layer3 = LitePal.where("layer = ? and upper_layer_id = ?","7",this_id2).order("this_layer_id").find(DeviceManager.class);
                     if (DataList_layer3 !=null){ editMapTreeView.noteParentNode();
-                        for (DeviceManager deviceManager3:DataList_layer3){
+                        for (DeviceManager deviceManager3:DataList_layer3){boolean switch_judge2;
+                            if (deviceManager2.getSwitch_status()){switch_judge2 = deviceManager3.getSwitch_status();}else switch_judge2 = false;
                             if (OnceFlag2 == false){String str_3 = GetDeviceName(deviceManager3.getDevice_name()) + deviceManager3.getThis_layer_id();
-                                editMapTreeView.creatNode(str_3,deviceManager3.getSwitch_status(),deviceManager3.getLayer(),deviceManager3.getThis_layer_id());}
+                                editMapTreeView.creatNode(str_3,switch_judge2,deviceManager3.getLayer(),deviceManager3.getThis_layer_id());}
                             if (OnceFlag2 == true){String str_3 = GetDeviceName(deviceManager3.getDevice_name()) + deviceManager3.getThis_layer_id();
-                                editMapTreeView.creatSubNode(str_3,deviceManager3.getSwitch_status(),deviceManager3.getLayer(),deviceManager3.getThis_layer_id());OnceFlag2 = false;}
+                                editMapTreeView.creatSubNode(str_3,switch_judge2,deviceManager3.getLayer(),deviceManager3.getThis_layer_id());OnceFlag2 = false;}
 
                         }
                         editMapTreeView.returnParentNode();
@@ -232,5 +236,89 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
         switch (v.getId()) {
         }
     }
+    private void buildEasyMqttService() {
+
+        mqttService = new EasyMqttService.Builder()
+
+                //设置自动重连
+
+                .autoReconnect(true)
+
+                //设置不清除回话session 可收到服务器之前发出的推送消息
+
+                .cleanSession(false)
+
+                //唯一标示 保证每个设备都唯一就可以 建议 imei
+
+                .clientId("imei")
+
+                //mqtt服务器地址 格式例如：tcp://10.0.261.159:1883
+
+                .serverUrl("tcp://167.179.84.221:1883")
+
+                //心跳包默认的发送间隔
+
+                .keepAliveInterval(20)
+
+                //构建出EasyMqttService 建议用application的context
+
+                .bulid(this.getApplicationContext());
+
+    }
+    private void connect() {
+
+        mqttService.connect(new IEasyMqttCallBack() {
+
+            @Override
+
+            public void messageArrived(String topic, String message, int qos) {
+
+                //推送消息到达
+
+            }
+
+
+
+            @Override
+
+            public void connectionLost(Throwable arg0) {
+                Toast.makeText(EditmapActivity_user.this,"连接断开",Toast.LENGTH_LONG).show();
+                //连接断开
+
+            }
+
+
+
+            @Override
+
+            public void deliveryComplete(IMqttDeliveryToken arg0) {
+
+
+
+            }
+
+
+
+            @Override
+
+            public void connectSuccess(IMqttToken arg0) {
+
+                //连接成功
+
+            }
+
+
+
+            @Override
+
+            public void connectFailed(IMqttToken arg0, Throwable arg1) {
+                //连接失败
+
+            }
+
+        });
+
+    }
+
 }
 

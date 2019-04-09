@@ -18,7 +18,7 @@ public class NodeView extends TextView {
 
     public NodeModel<String> treeNode = null;
     public boolean swich;
-    public int layer,device_id;
+    public int layer,device_id,upper_layer,device_name;
 
     public NodeView(Context context) {
         this(context, null, 0);
@@ -53,6 +53,20 @@ public class NodeView extends TextView {
     }
     public int getLayer(){
         return layer;
+    }
+    public void setUppre_Layer(int upper_layer){
+        this.upper_layer = upper_layer;
+
+    }
+    public int getUpper_Layer(){
+        return upper_layer;
+    }
+    public void setDevice_name(int device_name){
+        this.device_name = device_name;
+
+    }
+    public int getDevice_name(){
+        return device_name;
     }
     public void setDevice_id(int device_id){
         this.device_id = device_id;

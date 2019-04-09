@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(MainActivity.this,"尚未想好",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.backup:
-                Toast.makeText(MainActivity.this,"尚未想好",Toast.LENGTH_SHORT).show();
+                finish();
+
                 break;
         }
         return true;
