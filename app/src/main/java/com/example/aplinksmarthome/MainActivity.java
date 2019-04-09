@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements
                 case R.id.navigation_home:
                     return true;
                 case R.id.navigation_dashboard:
+                    Intent ManagerActivityIntent = new Intent(MainActivity.this, ManagerActivity.class);
+                    startActivity(ManagerActivityIntent);
                     return true;
                 case R.id.navigation_notifications:
                     return true;
@@ -146,28 +148,6 @@ public class MainActivity extends AppCompatActivity implements
         }
         return true;
     }
-    /* @Override
-
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R.id.bt_send:
-                String str = send_edit.getText().toString();
-                new SendAsyncTask().execute(str);
-                tv_send_text.setText(str);
-                break;
-
-        }
-
-
-
-    }*/
-
-
-
-
-
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         pickdate_month = String.valueOf(month+1);

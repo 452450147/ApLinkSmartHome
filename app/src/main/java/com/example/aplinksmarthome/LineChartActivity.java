@@ -87,12 +87,14 @@ public class LineChartActivity extends Activity {
         lineChartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         lineChartView.setLineChartData(data);
         lineChartView.setVisibility(View.VISIBLE);
+        axisX.setHasLines(true);// 是否显示X轴网格线
+        axisY.setHasLines(true);// 是否显示Y轴网格线
         /**
          *
          */
         Viewport v = new Viewport(lineChartView.getMaximumViewport());
         v.left = 0;
-        v.right = 7;
+        v.right = 15;
         lineChartView.setCurrentViewport(v);
     }
 

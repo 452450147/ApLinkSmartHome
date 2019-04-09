@@ -2,21 +2,23 @@ package com.example.aplinksmarthome.tree;
 
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.aplinksmarthome.DeviceManager;
+import com.example.aplinksmarthome.IGetMessageCallBack;
+import com.example.aplinksmarthome.MQTTService;
 import com.example.aplinksmarthome.MqttActivity;
+import com.example.aplinksmarthome.MyServiceConnection;
 import com.example.aplinksmarthome.R;
 import com.example.aplinksmarthome.SendAsyncTask;
-import com.zs.easy.mqtt.EasyMqttService;
-import com.zs.easy.mqtt.IEasyMqttCallBack;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.litepal.LitePal;
 
 import java.util.List;
@@ -25,16 +27,20 @@ import java.util.List;
  * Created by owant on 21/03/2017.
  */
 
-public class EditmapActivity_user extends BaseActivity implements EditMapContract.View,View.OnClickListener {
+public class EditmapActivity_user extends BaseActivity implements EditMapContract.View,View.OnClickListener, IGetMessageCallBack {
     private final static String TAG = "EditMapActivity";
     private final static String tree_model = "tree_model";
     private String plan_str = "点击此处开始控制";
     private EditMapContract.Presenter mEditMapPresenter;
+
+
+
     private TreeView editMapTreeView;
-    private Button bt_loginwifi2;
-    private EasyMqttService mqttService;
-    private boolean OnceFlag = true,OnceFlag2 = true,OnceFlag3 = true,OnceFlag4 = true;
-    private String topic = "a";
+
+    private MyServiceConnection serviceConnection;
+    private MQTTService mqttService;
+    private boolean OnceFlag = true,OnceFlag2 = true;
+    private String topic_send = "ForTest";
 
     @Override
     protected void onBaseIntent() { }
@@ -54,7 +60,6 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
         int dy = DensityUtils.dp2px(getApplicationContext(), 20);
         int screenHeight = DensityUtils.dp2px(getApplicationContext(), 720);
         editMapTreeView.setTreeLayoutManager(new RightTreeLayoutManager(dx, dy, screenHeight));
-        buildEasyMqttService();connect();
         editMapTreeView.setTreeViewItemLongClick(new TreeViewItemLongClick() {
             @Override
             public void onLongClick(View view) {
@@ -68,12 +73,18 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
                 editMapTreeView.changeNodeSwich(getCurrentFocusNode());
                 String str = editMapTreeView.returnStr(getCurrentFocusNode());
                 new SendAsyncTask().execute(str);
-                mqttService.publish(str,topic,1,true);
-
+                MQTTService.publish(str);
             }
         });
 
         initPresenter();
+        serviceConnection = new MyServiceConnection();
+        serviceConnection.setIGetMessageCallBack(EditmapActivity_user.this);
+
+        Intent intent = new Intent(this, MQTTService.class);
+
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
     }
 
     @Override
@@ -222,8 +233,10 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
 
     @Override
     public void finishActivity() {
+        unbindService(serviceConnection);
         EditmapActivity_user.this.finish();
     }
+
 
     @Override
     public void setTreeViewData(TreeModel treeModel) {
@@ -236,89 +249,52 @@ public class EditmapActivity_user extends BaseActivity implements EditMapContrac
         switch (v.getId()) {
         }
     }
-    private void buildEasyMqttService() {
+    @Override
+    public void setMessage(String message) {
 
-        mqttService = new EasyMqttService.Builder()
+        String xieyi = message;
 
-                //设置自动重连
+        char fir = xieyi.charAt(0);
 
-                .autoReconnect(true)
+        char sec = xieyi.charAt(1);
 
-                //设置不清除回话session 可收到服务器之前发出的推送消息
+        char switch_status_char = xieyi.charAt(6);
 
-                .cleanSession(false)
+        boolean switch_status = false;
 
-                //唯一标示 保证每个设备都唯一就可以 建议 imei
+        if (switch_status_char == '1'){switch_status = true;}
+        String layer = xieyi.substring(2,4);
 
-                .clientId("imei")
+        String device_id = xieyi.substring(4,6);
 
-                //mqtt服务器地址 格式例如：tcp://10.0.261.159:1883
+        if (fir == '#')
 
-                .serverUrl("tcp://167.179.84.221:1883")
+            switch (sec){
 
-                //心跳包默认的发送间隔
+                case 'R':
 
-                .keepAliveInterval(20)
+                    Toast.makeText(EditmapActivity_user.this, "设备情况已更改", Toast.LENGTH_SHORT).show();
 
-                //构建出EasyMqttService 建议用application的context
+                    DeviceManager deviceManager = new DeviceManager();
 
-                .bulid(this.getApplicationContext());
+                    if (switch_status == true){deviceManager.setSwitch_status(switch_status);}
+                    if (switch_status == false){deviceManager.setToDefault("switch_status");}
 
+                    deviceManager.updateAll("layer = ? and this_layer_id = ?",layer,device_id);
+                    break;
+
+                default:Toast.makeText(EditmapActivity_user.this, "未知数据", Toast.LENGTH_LONG).show();
+
+                    break;
+
+
+            }
+
+        mqttService = serviceConnection.getMqttService();
+        mqttService.toCreateNotification(message);
     }
-    private void connect() {
-
-        mqttService.connect(new IEasyMqttCallBack() {
-
-            @Override
-
-            public void messageArrived(String topic, String message, int qos) {
-
-                //推送消息到达
-
-            }
 
 
-
-            @Override
-
-            public void connectionLost(Throwable arg0) {
-                Toast.makeText(EditmapActivity_user.this,"连接断开",Toast.LENGTH_LONG).show();
-                //连接断开
-
-            }
-
-
-
-            @Override
-
-            public void deliveryComplete(IMqttDeliveryToken arg0) {
-
-
-
-            }
-
-
-
-            @Override
-
-            public void connectSuccess(IMqttToken arg0) {
-
-                //连接成功
-
-            }
-
-
-
-            @Override
-
-            public void connectFailed(IMqttToken arg0, Throwable arg1) {
-                //连接失败
-
-            }
-
-        });
-
-    }
 
 }
 

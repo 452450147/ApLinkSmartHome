@@ -1,7 +1,14 @@
 package com.example.aplinksmarthome;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.litepal.LitePal;
 
@@ -14,7 +21,7 @@ import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.PieChartView;
 
-public class PieChartActivity extends Activity {
+public class PieChartActivity extends AppCompatActivity {
 
     private PieChartView pieChart;
     private PieChartData piedata;
@@ -24,6 +31,10 @@ public class PieChartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pie_chart);
         pieChart = (PieChartView)findViewById(R.id.piechart);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        android.support.v7.widget.Toolbar toolbar1 = findViewById(R.id.toolbar_view);
+        setSupportActionBar(toolbar1);
         Initchart();
         InitData();
     }
@@ -50,6 +61,46 @@ public class PieChartActivity extends Activity {
         piedata.setHasCenterCircle(false);
         pieChart.setPieChartData(piedata);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar,menu);
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.setting:
+
+                break;
+            case R.id.backup:
+                finish();
+
+                break;
+        }
+        return true;
+    }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    return true;
+                case R.id.navigation_dashboard:
+                    Intent ManagerActivityIntent = new Intent(PieChartActivity.this, ManagerActivity.class);
+                    startActivity(ManagerActivityIntent);
+                    return true;
+                case R.id.navigation_notifications:
+                    return true;
+            }
+            return false;
+        }};
+
 
 
 }
