@@ -29,12 +29,12 @@ public class WifiUseActivity extends AppCompatActivity implements View.OnClickLi
         android.support.v7.widget.Toolbar toolbar1 = findViewById(R.id.toolbar_view);
         setSupportActionBar(toolbar1);
 
-        tv_content = (TextView) findViewById(R.id.tv_content);
-        send_edit = (EditText) findViewById(R.id.tv_send);
-        ip_edit = (EditText) findViewById(R.id.ip_edit);
-        socket_edit = (EditText) findViewById(R.id.socket_edit);
-        bt_send = (Button) findViewById(R.id.bt_send);
-        bt_loginwifi = (Button) findViewById(R.id.bt_loginwifi);
+        tv_content = findViewById(R.id.tv_content);
+        send_edit = findViewById(R.id.tv_send);
+        ip_edit =  findViewById(R.id.ip_edit);
+        socket_edit =  findViewById(R.id.socket_edit);
+        bt_send = findViewById(R.id.bt_send);
+        bt_loginwifi =  findViewById(R.id.bt_loginwifi);
         bt_send.setOnClickListener(this);
         bt_loginwifi.setOnClickListener(this);
     }

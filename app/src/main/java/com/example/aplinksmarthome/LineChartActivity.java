@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import org.litepal.LitePal;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -26,7 +28,8 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class LineChartActivity extends Activity {
 
     LineChartView lineChartView;
-    String monthchoose;
+    String monthchoose,daychoose;
+    int Flag = 1;//1时表示月份，0时表示日用电
 
 
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
@@ -36,10 +39,22 @@ public class LineChartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.line_chart);
-        lineChartView = (LineChartView)findViewById(R.id.linechart);
+        DatePicker_ForMonth datePicker_forMonth = findViewById(R.id.datepicker_line);
+        datePicker_forMonth.setOnDateSelectedListener(new DatePicker_ForMonth.OnDateSelectedListener(){
+            @Override
+            public void onDateSelected(int year, int month, int day) {
+                if (month < 10){monthchoose = "0" + month;}
+                else monthchoose = String.valueOf(month);
+                mAxisXValues.clear();
+                mPointValues.clear();
+                getValue();
+                InitLineChartView();
+            }
+        });
+        lineChartView = findViewById(R.id.linechart);
         Intent intent = getIntent();
         monthchoose = intent.getStringExtra("month_choose");
-        Log.d("testtest",monthchoose);
+        if (Integer.parseInt(monthchoose) < 10){monthchoose = "0" + monthchoose;}
         getValue();
         InitLineChartView();//初始化
     }
@@ -61,10 +76,10 @@ public class LineChartActivity extends Activity {
         data.setLines(lines);
 
         //坐标轴
-        Axis axisX = new Axis(); //X轴
+        final Axis axisX = new Axis(); //X轴
         axisX.setHasTiltedLabels(true);  //X坐标轴字体是斜的显示还是直的，true是斜的显示
         axisX.setTextColor(Color.GRAY);  //设置字体颜色
-        axisX.setName("用电情况");  //表格名称
+        axisX.setName(monthchoose+"月用电情况");  //表格名称
         axisX.setTextSize(10);//设置字体大小
         axisX.setMaxLabelChars(20); //最多几个X轴坐标，意思就是你的缩放让X轴上数据的个数7<=x<=mAxisXValues.length
         axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
@@ -96,19 +111,53 @@ public class LineChartActivity extends Activity {
         v.left = 0;
         v.right = 15;
         lineChartView.setCurrentViewport(v);
+        lineChartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
+            @Override
+            public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+                if (Flag == 1) {
+                    if (pointIndex < 10) {
+                        daychoose = "0" + (pointIndex + 1);
+                    } else daychoose = String.valueOf(pointIndex + 1);
+                    mAxisXValues.clear();
+                    mPointValues.clear();
+                    getValue_day();
+                    InitLineChartView();
+                    axisX.setName(monthchoose + "月" + daychoose + "日");
+                    Flag = 0;
+                }
+            }
+
+            @Override
+            public void onValueDeselected() {
+
+            }
+        });
     }
 
     private void getValue() {
-        List<EnergyUsed> DataList = LitePal.where("date like ?",monthchoose+"%").order("date").find(EnergyUsed.class);
-        int i = 0;
-        for(EnergyUsed energyUsed:DataList){
-            mAxisXValues.add(new AxisValue(i).setLabel(energyUsed.getDate()));
-            mPointValues.add(new PointValue(i,energyUsed.getEnergy_used()));
-            i++;
+        for (int i = 1 ; i <= 30 ; i++){
+            String str;
+            Float energy = 0f;
+            if (i < 10){str = "0" + i;}
+            else str = String.valueOf(i);
+            List<DeviceEnergy> DataList = LitePal.where("date = ? ","19" + monthchoose+ str).order("time").find(DeviceEnergy.class);
+        for(DeviceEnergy deviceEnergy:DataList){
+            energy += deviceEnergy.getEnergy_used();
+        }            mAxisXValues.add(new AxisValue(i).setLabel(i + "日"));
+            mPointValues.add(new PointValue(i,energy));
+    }
+    }
+    private void getValue_day(){
+        Float energy = 0f;
+        for (int i = 0 ; i <=23 ; i++){
+            List<DeviceEnergy> DataList = LitePal.where("date = ? and time like ?","19" + monthchoose+ daychoose,i+"%").order("time").find(DeviceEnergy.class);
+            for(DeviceEnergy deviceEnergy:DataList){
+                energy = deviceEnergy.getEnergy_used();
+            }
+            mAxisXValues.add(new AxisValue(i).setLabel(i + ":00"));
+            mPointValues.add(new PointValue(i,energy));
         }
-        //  for (int i = 0; i < DataList.size(); i++) {
-        //       mAxisXValues.add(new AxisValue(i).setLabel(energyUsed.getElectrical_appliances_name()));
-        //   }
+
     }
 
 

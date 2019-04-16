@@ -22,7 +22,10 @@
         <service
             android:name=".MQTTService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
+        <service android:name=".MQTTService2"
+            android:enabled="true"
+            android:exported="true"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -38,6 +41,7 @@
         <activity android:name=".tree.EditmapActivity_user" />
         <activity android:name=".MqttActivity" />
         <activity android:name=".ManagerActivity" />
+        <activity android:name=".BarChartActivity"></activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>

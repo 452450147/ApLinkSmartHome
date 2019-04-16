@@ -44,18 +44,18 @@ public class MainActivity extends AppCompatActivity implements
     public String pickdate_month,pickdate_day;
 
     private CardBottom[]cardBottoms={
-            new CardBottom("WiFi直连",R.drawable.test),
-            new CardBottom("MQTT连接",R.drawable.test),
-            new CardBottom("测试数据随机生成",R.drawable.test),
-            new CardBottom("数据库删除",R.drawable.test),
-            new CardBottom("饼图测试",R.drawable.test),
-            new CardBottom("月份用电图",R.drawable.test)
+            new CardBottom("WiFi直连",R.drawable.wifi),
+            new CardBottom("MQTT连接",R.drawable.mqtt),
+            new CardBottom("测试数据随机生成",R.drawable.ceshi),
+            new CardBottom("数据库删除",R.drawable.delete),
+            new CardBottom("饼图测试",R.drawable.pie_chart_72px),
+            new CardBottom("月份用电图",R.drawable.yongdianjiankong)
     };
     private CardBottom[]cardBottoms2={
-            new CardBottom("管理员树形图调试",R.drawable.test),
-            new CardBottom("树形图数据随机生成",R.drawable.test),
-            new CardBottom("用户设备管理",R.drawable.test),
-            new CardBottom("待设定",R.drawable.test),
+            new CardBottom("管理员树形图调试",R.drawable.guanliyuan),
+            new CardBottom("用户设备管理",R.drawable.shebeiguanli3),
+            new CardBottom("柱状图测试",R.drawable.bar_chart2),
+            new CardBottom("用电测试数据生成",R.drawable.test),
             new CardBottom("待设定",R.drawable.test),
             new CardBottom("",R.drawable.test)
     };
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements
         adapater2 = new CardAdapater2(cardList2);
         recyclerView2.setAdapter(adapater2);
 
+
     }
 
     private void initList(){
@@ -150,11 +151,6 @@ public class MainActivity extends AppCompatActivity implements
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        pickdate_month = String.valueOf(month+1);
-        pickdate_day = String.valueOf(dayOfMonth);
-        Intent LineChart_month_Intent = new Intent(MainActivity.this,LineChartActivity.class);
-        LineChart_month_Intent.putExtra("month_choose",pickdate_month);
-        startActivity(LineChart_month_Intent);
 
     }
 }

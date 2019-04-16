@@ -30,7 +30,7 @@ import java.util.List;
 public class EditmapActivity_user extends BaseActivity implements EditMapContract.View,View.OnClickListener, IGetMessageCallBack {
     private final static String TAG = "EditMapActivity";
     private final static String tree_model = "tree_model";
-    private String plan_str = "点击此处开始控制";
+    private String plan_str = "点击解锁总控制开关";
     private EditMapContract.Presenter mEditMapPresenter;
 
 

@@ -67,6 +67,8 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
         editMapTreeView.setTreeViewItemClick(new TreeViewItemClick() {
             @Override
             public void onItemClick(View item) {
+                String str = editMapTreeView.returnStr(getCurrentFocusNode());
+
                 Toast.makeText(EditMapActivity.this,"您没有控制权限",Toast.LENGTH_SHORT).show();
 
             }

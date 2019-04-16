@@ -11,6 +11,8 @@ import android.net.NetworkInfo;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -21,18 +23,19 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class MQTTService extends Service {
+public class MQTTService2 extends Service {
+    private static String myTopic = "Device_Energy";      //要订阅的主题
+    private String clientId = "androidId_2";//客户端标识
     private static MqttAndroidClient client;
     private MqttConnectOptions conOpt;
 
     private String host = "tcp://167.179.84.221:1883";
     private String userName = "admin";
     private String passWord = "password";
-    private static String myTopic = "Device_control";      //要订阅的主题
-    private String clientId = "androidId";//客户端标识
+
     private IGetMessageCallBack IGetMessageCallBack;
 
-    public MQTTService() {
+    public MQTTService2() {
     }
 
     @Override
@@ -132,12 +135,13 @@ public class MQTTService extends Service {
                 e.printStackTrace();
             }
         }
-    @Override
-    public void onFailure(IMqttToken arg0, Throwable arg1) {
-        arg1.printStackTrace();
-        // 连接失败，重连
-    }
-};
+        @Override
+        public void onFailure(IMqttToken arg0, Throwable arg1) {
+            arg1.printStackTrace();
+            Log.d("test","连接失败");
+            // 连接失败，重连
+        }
+    };
 
     // MQTT监听并且接受消息
     private MqttCallback mqttCallback = new MqttCallback() {
@@ -180,7 +184,7 @@ public class MQTTService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return new CustomBinder();
+        return new MQTTService2.CustomBinder();
     }
 
     public void setIGetMessageCallBack(IGetMessageCallBack IGetMessageCallBack){
@@ -188,8 +192,8 @@ public class MQTTService extends Service {
     }
 
     public class CustomBinder extends Binder {
-        public MQTTService getService(){
-            return MQTTService.this;
+        public MQTTService2 getService(){
+            return MQTTService2.this;
         }
     }
 

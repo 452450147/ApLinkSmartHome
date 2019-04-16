@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="#f7f7f7"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.ycuwq.datepicker.date.YearPicker
+        android:id="@+id/yearPicker2"
+        app:halfVisibleItemCount="2"
+        app:indicatorTextSize="12sp"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <com.ycuwq.datepicker.date.MonthPicker
+        android:id="@+id/monthPicker2"
+        app:indicatorTextSize="12sp"
+        app:halfVisibleItemCount="2"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <com.ycuwq.datepicker.date.DayPicker
+        android:id="@+id/dayPicker2"
+        app:indicatorTextSize="12sp"
+        app:halfVisibleItemCount="2"
+        android:layout_weight="0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>

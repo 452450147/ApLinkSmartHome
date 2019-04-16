@@ -4,13 +4,14 @@
     style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#5E703D"
+            android:background="#436B14"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">

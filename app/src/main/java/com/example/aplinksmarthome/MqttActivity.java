@@ -13,18 +13,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MqttActivity extends Activity implements View.OnClickListener,IGetMessageCallBack{
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class MqttActivity extends AppCompatActivity implements View.OnClickListener,IGetMessageCallBack{
 
 
     private final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     private EditText editText;
     private Button button,button2;
-    private MyServiceConnection serviceConnection;
-    private MQTTService mqttService;
+    private MyServiceConnection2 serviceConnection;
+    private MQTTService2 mqttService;
     private int flag ;
     private MyApplication application;
-    private String topic_recive = "a";
-    private String clientId_set = "111";
+
+
 
     @Override
 
@@ -40,10 +43,10 @@ public class MqttActivity extends Activity implements View.OnClickListener,IGetM
         application = (MyApplication)this.getApplication();
         flag = application.getMqttActivity_flag();
         if (flag == 1){button.setText("已连接，点击断开");   button.setActivated(true);}
-        serviceConnection = new MyServiceConnection();
+        serviceConnection = new MyServiceConnection2();
         serviceConnection.setIGetMessageCallBack(MqttActivity.this);
 
-        Intent intent = new Intent(this, MQTTService.class);
+        Intent intent = new Intent(this, MQTTService2.class);
 
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
@@ -79,10 +82,32 @@ public class MqttActivity extends Activity implements View.OnClickListener,IGetM
     }
     @Override
     public void setMessage(String message) {
-        Toast.makeText(MqttActivity.this,message,Toast.LENGTH_LONG).show();
+        char fir = message.charAt(0);
+        char sec = message.charAt(1);
+        if (fir == '#') switch (sec){
+            case 'D':
+                int layer = Integer.parseInt(message.substring(2,4));
+                int id = Integer.parseInt(message.substring(4,6));
+                int device_name = Integer.parseInt(message.substring(6,8));
+                float energy_used = Float.parseFloat(message.substring(8,11)) + Float.parseFloat(message.substring(11,12))*0.1f;
+                String date = message.substring(12,18);
+                String time = message.substring(18,22);
+                DeviceEnergy deviceEnergy = new DeviceEnergy();
+                deviceEnergy.setLayer(layer);
+                deviceEnergy.setThis_layer_id(id);
+                deviceEnergy.setDevice_name(device_name);
+                deviceEnergy.setEnergy_used(energy_used);
+                deviceEnergy.setDate(date);
+                deviceEnergy.setTime(time);
+                deviceEnergy.save();
+                break;
 
+
+        }
         mqttService = serviceConnection.getMqttService();
         mqttService.toCreateNotification(message);
     }
+
+
 
 }

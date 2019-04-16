@@ -2,16 +2,25 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.example.aplinksmarthome.DatePicker_ForMonth
+        android:id="@+id/datepicker_line"
+        android:layout_width="match_parent"
+        android:layout_height="98dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/linechart" />
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="434dp"
         android:layout_marginTop="150dp"
         android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.83" />
 
 </android.support.constraint.ConstraintLayout>
