@@ -4,6 +4,26 @@
     <string name="title_dashboard">管理员菜单</string>
     <string name="title_notifications">使用指南</string>
     <string name="title_name">家庭用电检测</string>
+    <string name="manager_tree">全区设备管理</string>
+    <string name="user_tree">用户设备管理</string>
+    <string name="mqtt_link">MQTT连接</string>
+    <string name="testdevice_creat">设备数据随机生成</string>
+    <string name="testdate_creat">用电数据随机生成</string>
+    <string name="delete_db">删除数据库</string>
+    <string name="wifi_link">WiFi直连</string>
+    <string name="bar_chart">设备用电总览图</string>
+    <string name="pie_chart">设备用电比例图</string>
+    <string name="line_chart">月（日）用电走势图</string>
+    <string name="device_name1">小区</string>
+    <string name="device_name2">单元</string>
+    <string name="device_name3">楼层</string>
+    <string name="device_name4">家庭</string>
+    <string name="device_name5">电接口</string>
+    <string name="device_name6">插座</string>
+    <string name="device_name7">风扇</string>
+    <string name="device_name8">小区</string>
+    <string name="device_name9">小区</string>
+
     <drawable name="color1">#339966</drawable>
     <drawable name="color2">#fff</drawable>
 </resources>

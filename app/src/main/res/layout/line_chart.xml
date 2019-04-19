@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.aplinksmarthome.DatePicker_ForMonth
+    <com.example.aplinksmarthome.UI.DatePicker_ForMonth
         android:id="@+id/datepicker_line"
         android:layout_width="match_parent"
         android:layout_height="98dp"

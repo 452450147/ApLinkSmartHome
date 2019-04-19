@@ -17,31 +17,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerActivity extends AppCompatActivity {
-    private CardBottom[]cardBottoms={
-            new CardBottom("WiFi直连", R.drawable.test),
-            new CardBottom("MQTT连接",R.drawable.test),
-            new CardBottom("测试数据随机生成",R.drawable.test),
-            new CardBottom("数据库删除",R.drawable.test),
-            new CardBottom("饼图测试",R.drawable.test),
-            new CardBottom("月份用电图",R.drawable.test)
-    };
+    private CardBottom[]cardBottoms;
     private List<CardBottom> cardList = new ArrayList<>();
     private CardAdapater2 adapater;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
+        initCardBottom();
         InitView();
     }
+
+    private void initCardBottom(){
+        cardBottoms = new CardBottom[]{
+                new CardBottom(getResources().getString(R.string.manager_tree), R.drawable.guanliyuan),
+                new CardBottom(getResources().getString(R.string.mqtt_link), R.drawable.mqtt),
+                new CardBottom(getResources().getString(R.string.testdate_creat), R.drawable.dog),
+                new CardBottom(getResources().getString(R.string.testdevice_creat), R.drawable.doge),
+                new CardBottom(getResources().getString(R.string.delete_db), R.drawable.delete)
+        };
+    }
     private void InitView() {
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        
         android.support.v7.widget.Toolbar toolbar1 = findViewById(R.id.toolbar_view);
         setSupportActionBar(toolbar1);
         initList();
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycle_view3);
+        RecyclerView recyclerView = findViewById(R.id.recycle_view3);
         GridLayoutManager layoutManager = new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(layoutManager);
         adapater = new CardAdapater2(cardList);

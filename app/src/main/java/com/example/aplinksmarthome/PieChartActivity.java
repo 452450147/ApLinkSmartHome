@@ -1,19 +1,17 @@
 package com.example.aplinksmarthome;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.aplinksmarthome.DateBase.DeviceEnergy;
 import com.ycuwq.datepicker.date.DatePicker;
 import com.ycuwq.datepicker.date.DatePickerDialogFragment;
 
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
@@ -39,17 +36,18 @@ public class PieChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pie_chart);
+        getDateChoose();
+        InitView();
+        Initchart();
+        InitData();
+    }
+    private void getDateChoose(){
         Intent intent = getIntent();
         month_choose = intent.getStringExtra("month_choose");
         day_choose = intent.getStringExtra("day_choose");
         if (Integer.parseInt(month_choose) < 10){month_choose = "0"+ month_choose;}
         if (Integer.parseInt(day_choose) < 10){day_choose = "0"+ day_choose;}
         datechoose = "19" + month_choose + day_choose;
-        Log.d("test",datechoose);
-
-        InitView();
-        Initchart();
-        InitData();
     }
     private void InitView(){
         pieChart = findViewById(R.id.piechart);
@@ -92,14 +90,13 @@ public class PieChartActivity extends AppCompatActivity {
         pieChart.setChartRotation(360,true);//设置饼图旋转角度，且是否为动画
         pieChart.setChartRotationEnabled(true);//设置饼图是否可以手动旋转
         pieChart.setCircleFillRatio(1);//设置饼图其中的比例
-        //pieChart.setCircleOval(RectF orginCircleOval);//设置饼图成椭圆形
+
 
     }
     private  void InitData(){
         List<SliceValue> values = new ArrayList<SliceValue>();
         Float[]device_energy_value={0f,0f,0f};
         String[]device_name_value={"照明","动力","其它"};
-
         for (int i  = 0;i < device_name_value.length ; i++){
             List<DeviceEnergy>PieList = LitePal.where("date = ? and Device_name = ?",datechoose,String.valueOf(i+5)).find(DeviceEnergy.class);
             for (DeviceEnergy deviceEnergy:PieList){
@@ -124,13 +121,10 @@ public class PieChartActivity extends AppCompatActivity {
 
 
     public class ValueTouchListener implements PieChartOnValueSelectListener {
-
         @Override //如果设置为能选中，选中时走此方法，如果设置为不能选中，点击时走此方法
         public void onValueSelected(int i, SliceValue value) {
             Toast.makeText(PieChartActivity.this, "该设备" + "用电量: " + (int) value.getValue() + " kwh", Toast.LENGTH_SHORT).show();
-
         }
-
         @Override //能选中，取消选中时调用；  不能选中： 不走此方法
         public void onValueDeselected() {
         }

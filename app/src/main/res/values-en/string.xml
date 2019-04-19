@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">毕设：施</string>
+    <string name="title_home">User menu</string>
+    <string name="title_dashboard">Administrator menu</string>
+    <string name="title_notifications">guidance</string>
+    <string name="title_name">Household electricity detection</string>
+    <string name="manager_tree">Regional equipment management</string>
+    <string name="user_tree">User equipment management</string>
+    <string name="mqtt_link">MQTT—Link</string>
+    <string name="testdevice_creat">Random generation of device data</string>
+    <string name="testdate_creat">Random generation using electricity data</string>
+    <string name="delete_db">Delete database</string>
+    <string name="wifi_link">WiFi direct connection</string>
+    <string name="bar_chart">bar_chart</string>
+    <string name="pie_chart">pie_chart</string>
+    <string name="line_chart">line_chart</string>
+    <string name="device_name1">小区</string>
+    <string name="device_name2">单元</string>
+    <string name="device_name3">楼层</string>
+    <string name="device_name4">家庭</string>
+    <string name="device_name5">电接口</string>
+    <string name="device_name6">插座</string>
+    <string name="device_name7">风扇</string>
+    <string name="device_name8">小区</string>
+    <string name="device_name9">小区</string>
+
+    <drawable name="color1">#339966</drawable>
+    <drawable name="color2">#fff</drawable>
+</resources>

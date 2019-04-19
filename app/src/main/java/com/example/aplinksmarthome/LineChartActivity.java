@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+
+import com.example.aplinksmarthome.DateBase.DeviceEnergy;
+import com.example.aplinksmarthome.UI.DatePicker_ForMonth;
 
 import org.litepal.LitePal;
 
@@ -38,6 +39,13 @@ public class LineChartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
+        getDateChoose();
+        getValue();
+        InitLineChartView();//初始化
+    }
+
+    private void initView(){
         setContentView(R.layout.line_chart);
         DatePicker_ForMonth datePicker_forMonth = findViewById(R.id.datepicker_line);
         datePicker_forMonth.setOnDateSelectedListener(new DatePicker_ForMonth.OnDateSelectedListener(){
@@ -52,13 +60,13 @@ public class LineChartActivity extends Activity {
             }
         });
         lineChartView = findViewById(R.id.linechart);
+    }
+
+    private void getDateChoose(){
         Intent intent = getIntent();
         monthchoose = intent.getStringExtra("month_choose");
         if (Integer.parseInt(monthchoose) < 10){monthchoose = "0" + monthchoose;}
-        getValue();
-        InitLineChartView();//初始化
     }
-
 
 
     private void InitLineChartView(){
@@ -68,7 +76,7 @@ public class LineChartActivity extends Activity {
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
         line.setFilled(false);//是否填充曲线的面积
         line.setHasLabels(true);//曲线的数据坐标是否加上备注
-//      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
+      // line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
         line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
         lines.add(line);

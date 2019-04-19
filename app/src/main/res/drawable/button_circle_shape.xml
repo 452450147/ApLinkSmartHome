@@ -5,14 +5,10 @@
                 android:shape="oval">
                 <!-- 填充的颜色 -->
                 <solid android:color="#0FE958" />
-                <corners
-                    android:radius="300dp" />
                 <!-- padding：Button里面的文字与Button边界的间隔 -->
-                <padding
-                    android:left="50dp"
-                    android:top="100dp"
-                    android:right="50dp"
-                    android:bottom="100dp"
+                <stroke
+                    android:width="25dp"
+                    android:color="#99BAC7C5"
                     />
             </shape>
         </item> <!-- 未点击时的颜色 -->
@@ -21,14 +17,9 @@
                 android:shape="oval">
             <!-- 填充的颜色 -->
             <solid android:color="#0F92E9" />
-            <!-- android:radius 弧形的半径 -->
-            <!-- 设置按钮的四个角为弧形 -->
-
-            <padding
-                android:left="50dp"
-                android:top="100dp"
-                android:right="50dp"
-                android:bottom="100dp"
+           <stroke
+                android:width="25dp"
+                android:color="#99BAC7C5"
                 /></shape>
         </item> <!-- 点击后的颜色 -->
     </selector>

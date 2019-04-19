@@ -37,4 +37,5 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
     implementation 'com.ycuwq.widgets:datepicker:1.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 }

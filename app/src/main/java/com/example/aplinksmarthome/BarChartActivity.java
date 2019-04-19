@@ -9,7 +9,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import com.example.aplinksmarthome.DateBase.DeviceEnergy;
+import com.example.aplinksmarthome.UI.DatePicker_ForMonth;
 
 import org.litepal.LitePal;
 
@@ -20,13 +22,10 @@ import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ColumnChartView;
-import lecho.lib.hellocharts.view.PieChartView;
 
 public class BarChartActivity extends AppCompatActivity {
     private ColumnChartView columnChart;
@@ -37,6 +36,14 @@ public class BarChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        InitView();
+        getDateChoose();
+        InitData();
+        Initchart();
+
+
+    }
+    private void InitView(){
         setContentView(R.layout.bar_chart);
         columnChart = findViewById(R.id.columnchart);
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -53,14 +60,12 @@ public class BarChartActivity extends AppCompatActivity {
                 Initchart();
             }
         });
-
-        setSupportActionBar(toolbar1);Intent intent = getIntent();
+        setSupportActionBar(toolbar1);
+    }
+    private void getDateChoose(){
+        Intent intent = getIntent();
         monthchoose = intent.getStringExtra("month_choose");
         if (Integer.parseInt(monthchoose) < 10){monthchoose = "0" + monthchoose;}
-        InitData();
-        Initchart();
-
-
     }
 
 

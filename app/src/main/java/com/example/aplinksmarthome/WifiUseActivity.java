@@ -13,6 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aplinksmarthome.DateBase.EnergyUsed;
+import com.example.aplinksmarthome.Server.MobileServer;
+import com.example.aplinksmarthome.Server.SendAsyncTask;
+
 public class WifiUseActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView tv_content;
     private Button bt_send,bt_loginwifi;
@@ -20,15 +24,13 @@ public class WifiUseActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wifiuse);
-        OpenServer();
         initview();
-
+        OpenServer();
     }
     private void initview(){
+        setContentView(R.layout.wifiuse);
         android.support.v7.widget.Toolbar toolbar1 = findViewById(R.id.toolbar_view);
         setSupportActionBar(toolbar1);
-
         tv_content = findViewById(R.id.tv_content);
         send_edit = findViewById(R.id.tv_send);
         ip_edit =  findViewById(R.id.ip_edit);

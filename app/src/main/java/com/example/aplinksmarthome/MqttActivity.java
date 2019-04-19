@@ -1,25 +1,19 @@
 package com.example.aplinksmarthome;
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.example.aplinksmarthome.DateBase.DeviceEnergy;
+import com.example.aplinksmarthome.Server.IGetMessageCallBack;
+import com.example.aplinksmarthome.Server.MQTTService2;
+import com.example.aplinksmarthome.Server.MyServiceConnection2;
 
-public class MqttActivity extends AppCompatActivity implements View.OnClickListener,IGetMessageCallBack{
+public class MqttActivity extends AppCompatActivity implements View.OnClickListener, IGetMessageCallBack {
 
-
-    private final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     private EditText editText;
     private Button button,button2;
     private MyServiceConnection2 serviceConnection;
@@ -27,32 +21,31 @@ public class MqttActivity extends AppCompatActivity implements View.OnClickListe
     private int flag ;
     private MyApplication application;
 
-
-
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        initView();
+        initServer();
+    }
 
-
+    private void initView(){
         setContentView(R.layout.activity_mqtt);
-        editText = (EditText)findViewById(R.id.et_mqtt);
-        button = (Button) findViewById(R.id.bt_mqtt);
+        editText = findViewById(R.id.et_mqtt);
+        button = findViewById(R.id.bt_mqtt);
         button.setOnClickListener(this);
         application = (MyApplication)this.getApplication();
         flag = application.getMqttActivity_flag();
         if (flag == 1){button.setText("已连接，点击断开");   button.setActivated(true);}
+    }
+    private void initServer(){
         serviceConnection = new MyServiceConnection2();
         serviceConnection.setIGetMessageCallBack(MqttActivity.this);
-
         Intent intent = new Intent(this, MQTTService2.class);
-
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-
-
     }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
