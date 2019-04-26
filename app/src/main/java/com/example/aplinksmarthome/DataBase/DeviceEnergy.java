@@ -1,4 +1,4 @@
-package com.example.aplinksmarthome.DateBase;
+package com.example.aplinksmarthome.DataBase;
 
 import org.litepal.crud.LitePalSupport;
 

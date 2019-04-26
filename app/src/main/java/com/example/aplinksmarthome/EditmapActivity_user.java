@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.aplinksmarthome.DateBase.DeviceManager;
+import com.example.aplinksmarthome.DataBase.DeviceManager;
 import com.example.aplinksmarthome.Server.IGetMessageCallBack;
 import com.example.aplinksmarthome.Server.MQTTService;
 import com.example.aplinksmarthome.Server.MyServiceConnection;

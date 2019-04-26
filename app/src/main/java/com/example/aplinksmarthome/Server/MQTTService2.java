@@ -30,7 +30,7 @@ public class MQTTService2 extends Service {
     private static MqttAndroidClient client;
     private MqttConnectOptions conOpt;
 
-    private String host = "tcp://167.179.84.221:1883";
+    private String host = "tcp://167.179.101.198:1883";
     private String userName = "admin";
     private String passWord = "password";
 

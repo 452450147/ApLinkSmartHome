@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.aplinksmarthome.DateBase.DeviceEnergy;
+import com.example.aplinksmarthome.DataBase.DeviceEnergy;
 import com.example.aplinksmarthome.Server.IGetMessageCallBack;
 import com.example.aplinksmarthome.Server.MQTTService2;
 import com.example.aplinksmarthome.Server.MyServiceConnection2;
@@ -77,6 +77,7 @@ public class MqttActivity extends AppCompatActivity implements View.OnClickListe
     public void setMessage(String message) {
         char fir = message.charAt(0);
         char sec = message.charAt(1);
+
         if (fir == '#') switch (sec){
             case 'D':
                 int layer = Integer.parseInt(message.substring(2,4));

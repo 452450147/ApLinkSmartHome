@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.aplinksmarthome.DateBase.EnergyUsed;
+import com.example.aplinksmarthome.DataBase.EnergyUsed;
 import com.example.aplinksmarthome.Server.MobileServer;
 import com.example.aplinksmarthome.Server.SendAsyncTask;
 

@@ -2,7 +2,6 @@ package com.example.aplinksmarthome;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -20,7 +19,7 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import com.example.aplinksmarthome.DateBase.DeviceEnergy;
+import com.example.aplinksmarthome.DataBase.DeviceEnergy;
 import com.example.aplinksmarthome.UI.CardAdapater;
 import com.example.aplinksmarthome.UI.CardBottom;
 

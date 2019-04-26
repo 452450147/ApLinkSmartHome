@@ -1,12 +1,14 @@
 package com.example.aplinksmarthome;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.aplinksmarthome.DateBase.DeviceManager;
+import com.example.aplinksmarthome.DataBase.DeviceManager;
 import com.example.aplinksmarthome.UI.tree.AndroidUtil;
 import com.example.aplinksmarthome.UI.tree.BaseActivity;
 import com.example.aplinksmarthome.UI.tree.DensityUtils;
@@ -35,11 +37,12 @@ import okhttp3.Response;
  */
 
 public class EditMapActivity extends BaseActivity implements EditMapContract.View {
-    private String plan_str = "分层管理图";
+    private String plan_str = "分层管理图",power = null;
     private EditMapContract.Presenter mEditMapPresenter;
     private TreeView editMapTreeView;
     private boolean OnceFlag = true,OnceFlag2 = true,OnceFlag3 = true;
     String jsonUrl = "http://167.179.101.198/api/v2/mysql/_table/manager_detection?api_key=9ddd5d8beda28c6ae5145a3fd4ae46827f59a8aa27c8a2173667b02b9f8f2ea2";
+    public static final int GET_Power = 2;
 
     @Override
     protected void onBaseIntent() {
@@ -75,7 +78,7 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
             public void onItemClick(View item) {
                 int layer = editMapTreeView.returnlayer_int(getCurrentFocusNode());
                 int this_layer_id =  editMapTreeView.return_this_layer_id_int(getCurrentFocusNode());
-                sendRequestWithOkHttp();
+                sendRequestWithOkHttp(layer,this_layer_id);
 
             }
         });
@@ -247,7 +250,7 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
     }
 
 
-    private  void  sendRequestWithOkHttp(){
+    private  void  sendRequestWithOkHttp(final int layer , final int this_layer_id){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -258,29 +261,44 @@ public class EditMapActivity extends BaseActivity implements EditMapContract.Vie
                             .build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    Log.d("test",responseData);
-                    parseJSONWithJSONObject(responseData);
+                    parseJSONWithJSONObject(responseData,layer,this_layer_id);
+                    Message message = new Message();
+                    message.what = GET_Power;
+                    handler.sendMessage(message);
                 }
                 //这里发现了Android P 会不让HTTPS外的连接成功，要修改android:networkSecurityConfig
                 catch (IOException e){e.printStackTrace(); Log.d("test",Log.getStackTraceString(e));}
             }
         }).start();
     }
-    private void parseJSONWithJSONObject(String jsondata){
+    private void parseJSONWithJSONObject(String jsondata,int layer ,int this_layer_id){
         try {
             JSONObject jsonObject = new JSONObject(jsondata);
             String jsonObject_resource = jsonObject.getString("resource");
             JSONArray jsonArray = new JSONArray(jsonObject_resource);
             for (int i = 0; i <jsonArray.length(); i++){
                 JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                String layer = jsonObject2.getString("layer");
-                String layer_id = jsonObject2.getString("layer_id");
-                String power = jsonObject2.getString("power");
-                Log.d("test",layer);
+                String layer_str = jsonObject2.getString("layer");
+                String layer_id_str = jsonObject2.getString("layer_id");
+                if (layer_str.equals(String.valueOf(layer)) & layer_id_str.equals(String.valueOf(this_layer_id)))
+                {  power = jsonObject2.getString("power");}
             }
+
         }catch (Exception e){
             e.printStackTrace();Log.d("test",Log.getStackTraceString(e));
         }
     }
+
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case GET_Power:
+                    Toast.makeText(EditMapActivity.this,"用电量"+power,Toast.LENGTH_LONG).show();
+                    break;
+                    default:
+                        break;
+            }
+        }
+    };
 }
 
