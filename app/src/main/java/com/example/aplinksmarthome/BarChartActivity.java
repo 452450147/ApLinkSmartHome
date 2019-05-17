@@ -18,6 +18,8 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecho.lib.hellocharts.formatter.ColumnChartValueFormatter;
+import lecho.lib.hellocharts.formatter.SimpleColumnChartValueFormatter;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
@@ -73,7 +75,7 @@ public class BarChartActivity extends AppCompatActivity {
         columnChart.setZoomEnabled(true);//设置是否支持缩放
         Viewport v = new Viewport(columnChart.getMaximumViewport());
         v.left = 0;
-        v.right = 6;
+        v.right = 4;
         columnChart.setCurrentViewport(v);
     }
     private void InitData(){
@@ -99,15 +101,19 @@ public class BarChartActivity extends AppCompatActivity {
         axisX.setInside(false);// 设置X轴文字是否在X轴内部
 
 
-        String device_names[] = {"照明","动力","其它"};
+        String device_names[] = {"照明","制冷制暖","娱乐","厨卫","其它"};
+        int a_value[]={3,5,9,11,14,15};
+
         for (int i = 1 ; i <= 30 ; i++){
             String str;
-            Float[]device_energy_value={0f,0f,0f};
+            Float[]device_energy_value={0f,0f,0f,0f,0f};
             subcolumnValueList = new ArrayList<>();
             if (i < 10){str = "0" + i;}
             else str = String.valueOf(i);
             for (int j  = 0;j < device_names.length ; j++){
-            List<DeviceEnergy> DataList = LitePal.where("date = ? and Device_name = ?","19" + monthchoose+ str,String.valueOf(j+5)).order("time").find(DeviceEnergy.class);
+                int a =a_value[j];
+                int b =a_value[j+1]-1;
+                List<DeviceEnergy> DataList = LitePal.where("date = ? and Device_name between ? and ?","19" + monthchoose+ str,String.valueOf(a),String.valueOf(b)).order("time").find(DeviceEnergy.class);
             for (DeviceEnergy deviceEnergy:DataList){
                 device_energy_value[j] += deviceEnergy.getEnergy_used();
             }
@@ -116,6 +122,8 @@ public class BarChartActivity extends AppCompatActivity {
             subcolumnValueList.add(subcolumnValue);
 
             }Column column = new Column(subcolumnValueList);
+            ColumnChartValueFormatter chartValueFormatter = new SimpleColumnChartValueFormatter(2);
+            column.setFormatter(chartValueFormatter);
             axisValuesX.add(new AxisValue(i-1).setLabel( i + "日"));
             column.setHasLabels(true);
             columnList.add(column);

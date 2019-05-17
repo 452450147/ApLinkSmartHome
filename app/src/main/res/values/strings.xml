@@ -7,6 +7,7 @@
     <string name="manager_tree">全区设备管理</string>
     <string name="user_tree">用户设备管理</string>
     <string name="mqtt_link">MQTT连接</string>
+    <string name="abnormal_data">异常数据</string>
     <string name="testdevice_creat">设备数据随机生成</string>
     <string name="testdate_creat">用电数据随机生成</string>
     <string name="delete_db">删除数据库</string>

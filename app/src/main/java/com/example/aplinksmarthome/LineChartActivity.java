@@ -14,6 +14,8 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecho.lib.hellocharts.formatter.LineChartValueFormatter;
+import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
@@ -79,7 +81,11 @@ public class LineChartActivity extends Activity {
       // line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
         line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+        LineChartValueFormatter chartValueFormatter = new SimpleLineChartValueFormatter(2);
+        line.setFormatter(chartValueFormatter);//小数点
         lines.add(line);
+
+
         LineChartData data = new LineChartData();
         data.setLines(lines);
 
@@ -112,6 +118,8 @@ public class LineChartActivity extends Activity {
         lineChartView.setVisibility(View.VISIBLE);
         axisX.setHasLines(true);// 是否显示X轴网格线
         axisY.setHasLines(true);// 是否显示Y轴网格线
+
+
         /**
          *
          */
@@ -156,13 +164,14 @@ public class LineChartActivity extends Activity {
     }
     }
     private void getValue_day(){
-        Float energy = 0f;
-        for (int i = 0 ; i <=23 ; i++){
-            List<DeviceEnergy> DataList = LitePal.where("date = ? and time like ?","19" + monthchoose+ daychoose,i+"%").order("time").find(DeviceEnergy.class);
+
+        for (int i = 0 ; i <=5 ; i++){
+            Float energy = 0f;
+            List<DeviceEnergy> DataList = LitePal.where("date = ? and time = ?","19" + monthchoose+ daychoose,String.valueOf(i*400)).find(DeviceEnergy.class);
             for(DeviceEnergy deviceEnergy:DataList){
-                energy = deviceEnergy.getEnergy_used();
+                energy += deviceEnergy.getEnergy_used();
             }
-            mAxisXValues.add(new AxisValue(i).setLabel(i + ":00"));
+            mAxisXValues.add(new AxisValue(i).setLabel(i*4 + ":00"));
             mPointValues.add(new PointValue(i,energy));
         }
 

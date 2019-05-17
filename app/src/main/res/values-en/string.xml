@@ -7,6 +7,7 @@
     <string name="manager_tree">Regional equipment management</string>
     <string name="user_tree">User equipment management</string>
     <string name="mqtt_link">MQTT—Link</string>
+    <string name="abnormal_data">Abnormal Data</string>
     <string name="testdevice_creat">Random generation of device data</string>
     <string name="testdate_creat">Random generation using electricity data</string>
     <string name="delete_db">Delete database</string>

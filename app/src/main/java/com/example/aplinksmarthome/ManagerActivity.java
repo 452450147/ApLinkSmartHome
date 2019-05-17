@@ -33,6 +33,7 @@ public class ManagerActivity extends AppCompatActivity {
         cardBottoms = new CardBottom[]{
                 new CardBottom(getResources().getString(R.string.manager_tree), R.drawable.guanliyuan),
                 new CardBottom(getResources().getString(R.string.mqtt_link), R.drawable.mqtt),
+                new CardBottom(getResources().getString(R.string.abnormal_data), R.drawable.yichang),
                 new CardBottom(getResources().getString(R.string.testdate_creat), R.drawable.dog),
                 new CardBottom(getResources().getString(R.string.testdevice_creat), R.drawable.doge),
                 new CardBottom(getResources().getString(R.string.delete_db), R.drawable.delete)

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aplinksmarthome.DataBase.EnergyUsed;
-import com.example.aplinksmarthome.Server.MobileServer;
+import com.example.aplinksmarthome.Server.WiFiServer;
 import com.example.aplinksmarthome.Server.SendAsyncTask;
 
 public class WifiUseActivity extends AppCompatActivity implements View.OnClickListener{
@@ -43,7 +43,7 @@ public class WifiUseActivity extends AppCompatActivity implements View.OnClickLi
 
     private void OpenServer(){
         //开启服务器
-        MobileServer mobileServer = new MobileServer();
+        WiFiServer mobileServer = new WiFiServer();
         mobileServer.setHandler(handler);
         new Thread(mobileServer).start();
     }

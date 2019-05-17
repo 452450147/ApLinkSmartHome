@@ -78,7 +78,7 @@ public class MQTTService extends Service {
         boolean doConnect = true;
         String message = "{\"terminal_uid\":\"" + clientId + "\"}";
         String topic = myTopic;
-        Integer qos = 0;
+        Integer qos = 2;
         Boolean retained = false;
         if ((!message.equals("")) || (!topic.equals(""))) {
             // 最后的遗嘱

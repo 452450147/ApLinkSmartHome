@@ -20,6 +20,8 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecho.lib.hellocharts.formatter.PieChartValueFormatter;
+import lecho.lib.hellocharts.formatter.SimplePieChartValueFormatter;
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -92,22 +94,29 @@ public class PieChartActivity extends AppCompatActivity {
         pieChart.setCircleFillRatio(1);//设置饼图其中的比例
 
 
+
+
     }
     private  void InitData(){
         List<SliceValue> values = new ArrayList<SliceValue>();
-        Float[]device_energy_value={0f,0f,0f};
-        String[]device_name_value={"照明","动力","其它"};
+        Float[]device_energy_value={0f,0f,0f,0f,0f,0f,0f,0f,0f,0f,0f,0f};
+        String[]device_name_value={"日光灯","台灯","空调","风扇","冰箱","暖气","电视","电脑","洗衣机","电磁炉","微波炉","其它"};
         for (int i  = 0;i < device_name_value.length ; i++){
-            List<DeviceEnergy>PieList = LitePal.where("date = ? and Device_name = ?",datechoose,String.valueOf(i+5)).find(DeviceEnergy.class);
+            List<DeviceEnergy>PieList = LitePal.where("date = ? and Device_name = ?",datechoose,String.valueOf(i+3)).find(DeviceEnergy.class);
             for (DeviceEnergy deviceEnergy:PieList){
                 device_energy_value[i] += deviceEnergy.getEnergy_used();
             }
             SliceValue sliceValue = new SliceValue(device_energy_value[i], ChartUtils.pickColor());
+
             sliceValue.setLabel(device_name_value[i]);
+
             values.add(sliceValue);
         }
-        piedata = new PieChartData(values);
 
+
+        piedata = new PieChartData(values);
+       // PieChartValueFormatter pieChartValueFormatter = new SimplePieChartValueFormatter(2);
+       // piedata.setFormatter( pieChartValueFormatter);
         piedata.setHasLabels(true);
         piedata.setHasLabelsOutside(false);
         piedata.setHasCenterCircle(true);
@@ -123,7 +132,7 @@ public class PieChartActivity extends AppCompatActivity {
     public class ValueTouchListener implements PieChartOnValueSelectListener {
         @Override //如果设置为能选中，选中时走此方法，如果设置为不能选中，点击时走此方法
         public void onValueSelected(int i, SliceValue value) {
-            Toast.makeText(PieChartActivity.this, "该设备" + "用电量: " + (int) value.getValue() + " kwh", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PieChartActivity.this, "该设备" + "用电量: " + String.format("%.2f",value.getValue()) + " kwh", Toast.LENGTH_SHORT).show();
         }
         @Override //能选中，取消选中时调用；  不能选中： 不走此方法
         public void onValueDeselected() {

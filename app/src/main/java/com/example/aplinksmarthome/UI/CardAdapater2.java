@@ -21,6 +21,7 @@ import com.example.aplinksmarthome.DataBase.EnergyUsed;
 import com.example.aplinksmarthome.MqttActivity;
 import com.example.aplinksmarthome.R;
 import com.example.aplinksmarthome.EditMapActivity;
+import com.example.aplinksmarthome.UnusualActivity;
 
 import org.litepal.LitePal;
 
@@ -63,10 +64,10 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             for (int d = 1; d <= 30; d++) {
-                                for (int i = 5; i <= 7; i++) {
-                                    for (int j = 0; j <= 23; j++) {
+                                for (int i = 1; i <= 12; i++) {
+                                    for (int j = 0; j <= 5; j++) {
                                         DeviceEnergy deviceEnergy = new DeviceEnergy();
-                                        deviceEnergy.setDevice_name(i);
+
                                         String d_str, m_str;
                                         if (d < 10) {
                                             d_str = "0" + d;
@@ -76,10 +77,11 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                                             m_str = "0" + m;
                                         } else m_str = String.valueOf(m);
                                         deviceEnergy.setDate("19" + m_str + d_str);
-                                        deviceEnergy.setLayer(i);
+                                        deviceEnergy.setLayer(7);
                                         deviceEnergy.setThis_layer_id(i);
-                                        deviceEnergy.setTime(j * 100 + "");
-                                        deviceEnergy.setEnergy_used((float) (2 + Math.random() * (9 - 2 + 1)));
+                                        deviceEnergy.setDevice_name(i+2);
+                                        deviceEnergy.setTime(j * 400 + "");
+                                        deviceEnergy.setEnergy_used((float) ((2 + Math.random() * (16 - 2 + 1))*0.05));
                                         deviceEnergy.save();
 
                                     }
@@ -100,22 +102,44 @@ public class CardAdapater2 extends RecyclerView.Adapter<CardAdapater2.ViewHolder
                         e.printStackTrace();
                     }
                 }
+                else if (mContext.getResources().getString(R.string.abnormal_data).equals(cardBottom.getName())){
+                    try{
+                        Intent UnusualIntent = new Intent(v.getContext(), UnusualActivity.class);
+                        UnusualIntent.setClass(v.getContext(),UnusualActivity.class);
+                        v.getContext().startActivity(UnusualIntent);}
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 else if (mContext.getResources().getString(R.string.testdevice_creat).equals(cardBottom.getName())){
-                    for (int i = 1; i <= 7; i++) {
+                    for (int i = 1; i <= 4; i++) {
                         for (int j =1;j <= 2*i; j++ ){
                             DeviceManager deviceManager = new DeviceManager();
-                            deviceManager.setDevice_name(i);
+                            //deviceManager.setDevice_name(i);
                             deviceManager.setLayer(i);
                             deviceManager.setThis_layer_id(j);
                             deviceManager.setUpper_layer_id((int)(1+Math.random()*(2*(i-1)-1+1)));
-                            if (i <= 3 || i == 5 ||i == 6){
+                            if (i <= 3 ){
+                                deviceManager.setSwitch_status(true);}
+                            else deviceManager.setSwitch_status(false);
+                            deviceManager.save();}
+                    }
+                    for (int i = 5; i <= 7; i++) {
+                        for (int j =1;j <= 4*(i-4); j++ ){
+                            DeviceManager deviceManager = new DeviceManager();
+                            if(i < 7)deviceManager.setDevice_name(i-4);
+                            else deviceManager.setDevice_name(j+2);
+                            deviceManager.setLayer(i);
+                            deviceManager.setThis_layer_id(j);
+                            deviceManager.setUpper_layer_id((int)(1+Math.random()*(4*(i-5)-1+1)));
+                            if ( i == 5 ||i == 6){
                                 deviceManager.setSwitch_status(true);}
                             else deviceManager.setSwitch_status(false);
                             deviceManager.save();}
                     }
                     Toast.makeText(v.getContext(), "随机数据生成成功", Toast.LENGTH_LONG).show();
                 }
-                else if (mContext.getResources().getString(R.string.testdevice_creat).equals(cardBottom.getName())){
+                else if (mContext.getResources().getString(R.string.delete_db).equals(cardBottom.getName())){
                     LitePal.deleteAll(EnergyUsed.class);
                     LitePal.deleteAll(DeviceManager.class);
                     LitePal.deleteAll(DeviceEnergy.class);

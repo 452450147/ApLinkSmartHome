@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MobileServer implements Runnable {
+public class WiFiServer implements Runnable {
 
     private ServerSocket server;
 
@@ -23,7 +23,7 @@ public class MobileServer implements Runnable {
 
 
 
-    public MobileServer() {
+    public WiFiServer() {
 
     }
 

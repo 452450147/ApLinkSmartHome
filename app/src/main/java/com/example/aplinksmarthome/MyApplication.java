@@ -20,4 +20,5 @@ public class MyApplication extends Application {
     public void setMqttActivity_flag(int mqttActivity_flag){
         this.mqttActivity_flag = mqttActivity_flag;
     }
+
 }
