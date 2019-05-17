@@ -1,4 +1,4 @@
-package com.example.aplinksmarthome.Server;
+package com.example.aplinksmarthome.Service;
 
 
 import android.content.ComponentName;
@@ -7,7 +7,7 @@ import android.os.IBinder;
 
 public class MyServiceConnection implements ServiceConnection {
     private MQTTService mqttService;
-    private com.example.aplinksmarthome.Server.IGetMessageCallBack IGetMessageCallBack;
+    private com.example.aplinksmarthome.Service.IGetMessageCallBack IGetMessageCallBack;
 
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {

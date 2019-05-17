@@ -1,4 +1,4 @@
-package com.example.aplinksmarthome.Server;
+package com.example.aplinksmarthome.Service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -32,7 +32,7 @@ public class MQTTService extends Service {
     private String passWord = "password";
     private static String myTopic = "Device_control";      //要订阅的主题
     private String clientId = "androidId";//客户端标识
-    private com.example.aplinksmarthome.Server.IGetMessageCallBack IGetMessageCallBack;
+    private com.example.aplinksmarthome.Service.IGetMessageCallBack IGetMessageCallBack;
 
     public MQTTService() {
     }

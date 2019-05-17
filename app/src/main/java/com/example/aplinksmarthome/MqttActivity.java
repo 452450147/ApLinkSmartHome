@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.aplinksmarthome.DataBase.DeviceEnergy;
-import com.example.aplinksmarthome.Server.IGetMessageCallBack;
-import com.example.aplinksmarthome.Server.MQTTService2;
-import com.example.aplinksmarthome.Server.MyServiceConnection2;
+import com.example.aplinksmarthome.Service.IGetMessageCallBack;
+import com.example.aplinksmarthome.Service.MQTTService2;
+import com.example.aplinksmarthome.Service.MyServiceConnection2;
 
 public class MqttActivity extends AppCompatActivity implements View.OnClickListener, IGetMessageCallBack {
 

@@ -1,4 +1,4 @@
-package com.example.aplinksmarthome.Server;
+package com.example.aplinksmarthome.Service;
 
 import android.os.AsyncTask;
 

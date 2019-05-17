@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aplinksmarthome.DataBase.EnergyUsed;
-import com.example.aplinksmarthome.Server.WiFiServer;
-import com.example.aplinksmarthome.Server.SendAsyncTask;
+import com.example.aplinksmarthome.Service.WiFiServer;
+import com.example.aplinksmarthome.Service.SendAsyncTask;
 
 public class WifiUseActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView tv_content;

@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.aplinksmarthome.DataBase.DeviceManager;
-import com.example.aplinksmarthome.Server.IGetMessageCallBack;
-import com.example.aplinksmarthome.Server.MQTTService;
-import com.example.aplinksmarthome.Server.MyServiceConnection;
-import com.example.aplinksmarthome.Server.SendAsyncTask;
+import com.example.aplinksmarthome.Service.IGetMessageCallBack;
+import com.example.aplinksmarthome.Service.MQTTService;
+import com.example.aplinksmarthome.Service.MyServiceConnection;
+import com.example.aplinksmarthome.Service.SendAsyncTask;
 import com.example.aplinksmarthome.UI.tree.AndroidUtil;
 import com.example.aplinksmarthome.UI.tree.BaseActivity;
 import com.example.aplinksmarthome.UI.tree.DensityUtils;

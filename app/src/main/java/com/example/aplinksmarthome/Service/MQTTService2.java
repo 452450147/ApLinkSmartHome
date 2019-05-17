@@ -1,4 +1,4 @@
-package com.example.aplinksmarthome.Server;
+package com.example.aplinksmarthome.Service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -34,7 +34,7 @@ public class MQTTService2 extends Service {
     private String userName = "admin";
     private String passWord = "password";
 
-    private com.example.aplinksmarthome.Server.IGetMessageCallBack IGetMessageCallBack;
+    private com.example.aplinksmarthome.Service.IGetMessageCallBack IGetMessageCallBack;
 
     public MQTTService2() {
     }

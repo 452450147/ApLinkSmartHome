@@ -21,10 +21,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:label">
         <service
-            android:name=".Server.MQTTService"
+            android:name=".Service.MQTTService"
             android:enabled="true"
             android:exported="true"/>
-        <service android:name=".Server.MQTTService2"
+        <service android:name=".Service.MQTTService2"
             android:enabled="true"
             android:exported="true"/>
 
